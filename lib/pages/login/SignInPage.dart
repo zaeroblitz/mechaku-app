@@ -66,6 +66,7 @@ class SignInPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
                         hintText: 'Your Email Address',
@@ -120,6 +121,7 @@ class SignInPage extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       obscureText: true,
+                      cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
                         hintText: 'Your Password',
@@ -158,8 +160,35 @@ class SignInPage extends StatelessWidget {
       );
     }
 
+    Widget signUpNow() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Don't have an account? ",
+            style: primaryTextStyle.copyWith(
+              fontSize: 12,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, 'sign-up');
+            },
+            child: Text(
+              'Sign Up Now',
+              style: orangeTextStyle.copyWith(
+                fontSize: 12,
+                fontWeight: medium,
+              ),
+            ),
+          )
+        ],
+      );
+    }
+
     return Scaffold(
       backgroundColor: bgColor,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.all(30),
@@ -176,27 +205,7 @@ class SignInPage extends StatelessWidget {
                   signInButton(),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account? ",
-                    style: primaryTextStyle.copyWith(
-                      fontSize: 12,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      'Sign Up Now',
-                      style: orangeTextStyle.copyWith(
-                        fontSize: 12,
-                        fontWeight: medium,
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              signUpNow(),
             ],
           ),
         ),
