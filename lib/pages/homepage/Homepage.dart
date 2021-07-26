@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mechaku/theme.dart';
+import 'package:mechaku/widgets/best_seller_item.dart';
 
 class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');
@@ -82,12 +83,46 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  Widget bestSeller() {
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: 30,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Best Seller',
+            style: titleTextStyle.copyWith(
+              fontSize: 22,
+              fontWeight: semiBold,
+            ),
+          ),
+          SizedBox(
+            height: 14,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                BestSellerItem(),
+                BestSellerItem(),
+                BestSellerItem(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         header(),
         searchField(),
+        bestSeller(),
         Center(
           child: Text('Homepage'),
         ),
