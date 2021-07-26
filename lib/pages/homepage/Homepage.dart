@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mechaku/theme.dart';
 import 'package:mechaku/widgets/best_seller_item.dart';
+import 'package:mechaku/widgets/category_item.dart';
 
 class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');
@@ -116,6 +117,37 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  Widget categories() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Categories',
+          style: titleTextStyle.copyWith(
+            fontSize: 22,
+            fontWeight: semiBold,
+          ),
+        ),
+        SizedBox(
+          height: 14,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              CategoryItem(),
+              CategoryItem(),
+              CategoryItem(),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -123,9 +155,8 @@ class Homepage extends StatelessWidget {
         header(),
         searchField(),
         bestSeller(),
-        Center(
-          child: Text('Homepage'),
-        ),
+        categories(),
+        bestSeller(),
       ],
     );
   }

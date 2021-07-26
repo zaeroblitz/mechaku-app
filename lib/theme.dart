@@ -9,6 +9,7 @@ Color subtitleFontColor = Color(0xFFAAAAAA);
 Color iconColor = Color(0xFF414141);
 Color primaryButtonColor = Color(0xFF333333);
 Color orangeTextColor = Color(0xFFFFA500);
+Color blackColor = Color(0xFF2E2E2E);
 
 TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: primaryFontColor,
