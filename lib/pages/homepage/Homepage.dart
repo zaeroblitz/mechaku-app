@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mechaku/theme.dart';
 import 'package:mechaku/widgets/best_seller_item.dart';
 import 'package:mechaku/widgets/category_item.dart';
+import 'package:mechaku/widgets/new_arrival_item.dart';
 
 class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');
@@ -148,6 +149,30 @@ class Homepage extends StatelessWidget {
     );
   }
 
+  Widget newArrival() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'New Arrival',
+            style: titleTextStyle.copyWith(
+              fontSize: 22,
+              fontWeight: semiBold,
+            ),
+          ),
+          SizedBox(
+            height: 14,
+          ),
+          NewArrivalItem(),
+          NewArrivalItem(),
+          NewArrivalItem(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -156,7 +181,7 @@ class Homepage extends StatelessWidget {
         searchField(),
         bestSeller(),
         categories(),
-        bestSeller(),
+        newArrival(),
       ],
     );
   }

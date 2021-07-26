@@ -10,6 +10,7 @@ Color iconColor = Color(0xFF414141);
 Color primaryButtonColor = Color(0xFF333333);
 Color orangeTextColor = Color(0xFFFFA500);
 Color blackColor = Color(0xFF2E2E2E);
+Color greyColor = Color(0xFF999999);
 
 TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: primaryFontColor,
@@ -25,6 +26,10 @@ TextStyle orangeTextStyle = GoogleFonts.poppins(
 
 TextStyle whiteTextStyle = GoogleFonts.poppins(
   color: whiteFontColor,
+);
+
+TextStyle greyTextStyle = GoogleFonts.poppins(
+  color: greyColor,
 );
 
 TextStyle titleTextStyle = GoogleFonts.poppins(
