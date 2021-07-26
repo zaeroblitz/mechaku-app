@@ -311,7 +311,10 @@ class SignUpPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+                context, 'main-page', (route) => false);
+          },
           child: Text(
             'Sign Up',
             style: whiteTextStyle.copyWith(
