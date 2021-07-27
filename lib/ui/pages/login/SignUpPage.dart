@@ -3,6 +3,29 @@ part of '../pages.dart';
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController(text: '');
+    TextEditingController usernameController = TextEditingController(text: '');
+    TextEditingController emailAddressController =
+        TextEditingController(text: '');
+    TextEditingController passwordController = TextEditingController(text: '');
+
+    handleSignUp() async {
+      SignInSignUpResult result = await AuthServices.signUp(
+        emailAddressController.text,
+        passwordController.text,
+        nameController.text,
+        usernameController.text,
+      );
+
+      if (result == null) {
+        print(result.message);
+      } else {
+        print(result.userModel.toString());
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'main-page', (route) => false);
+      }
+    }
+
     Widget header() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +88,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: nameController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
@@ -119,6 +143,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: usernameController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
@@ -173,6 +198,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: emailAddressController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
@@ -227,6 +253,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
@@ -310,10 +337,7 @@ class SignUpPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, 'main-page', (route) => false);
-          },
+          onPressed: handleSignUp,
           child: Text(
             'Sign Up',
             style: whiteTextStyle.copyWith(
@@ -374,7 +398,7 @@ class SignUpPage extends StatelessWidget {
                   usernameInput(),
                   emailAddressInput(),
                   passwordInput(),
-                  retypePasswordInput(),
+                  // retypePasswordInput(),
                   signUpButton(),
                   signIn(),
                 ],

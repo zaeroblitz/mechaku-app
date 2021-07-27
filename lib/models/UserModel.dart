@@ -18,4 +18,9 @@ class UserModel {
     this.balance,
     this.wishlist,
   });
+
+  @override
+  String toString() {
+    return '[$id]: $id \n[$email]: $email \n[$name]: $name';
+  }
 }

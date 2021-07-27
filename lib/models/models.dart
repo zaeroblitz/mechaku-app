@@ -1,1 +1,1 @@
-part 'User.dart';
+part 'UserModel.dart';
