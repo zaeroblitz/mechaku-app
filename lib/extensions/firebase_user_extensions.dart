@@ -17,4 +17,7 @@ extension UserExtension on User {
         balance: balance,
         wishlist: wishlist,
       );
+
+  Future<UserModel> fromFirestore() async =>
+      await UserServices.getUser(this.uid);
 }

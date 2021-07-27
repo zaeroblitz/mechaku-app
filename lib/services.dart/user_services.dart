@@ -12,7 +12,7 @@ class UserServices {
     //       wishlist + ((wishlist != userModel.wishlist.last) ? ',' : '');
     // }
 
-    users.add({
+    users.doc(userModel.id).set({
       'email': userModel.email,
       'name': userModel.name,
       'username': userModel.username,
@@ -20,5 +20,27 @@ class UserServices {
       'balance': userModel.balance,
       'wishlists': userModel.wishlist,
     });
+  }
+
+  static Future<UserModel> getUser(String id) async {
+    var userData = users.doc(id).get().then((DocumentSnapshot snapshot) {
+      if (snapshot.exists) {
+        return UserModel(
+          id,
+          snapshot.get('email'),
+          name: snapshot.get('name'),
+          username: snapshot.get('username'),
+          profilePicture: snapshot.get('profilePicture'),
+          balance: snapshot.get('balance'),
+          wishlist: (snapshot.get('wishlists') as List)
+              .map((e) => e.toString())
+              .toList(),
+        );
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+
+    return userData;
   }
 }

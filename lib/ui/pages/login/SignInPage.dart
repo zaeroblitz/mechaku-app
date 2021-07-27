@@ -3,6 +3,22 @@ part of '../pages.dart';
 class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TextEditingController emailController = TextEditingController(text: '');
+    TextEditingController passwordController = TextEditingController(text: '');
+
+    handleSignIn() async {
+      SignInSignUpResult result = await AuthServices.signIn(
+          emailController.text, passwordController.text);
+
+      if (result == null) {
+        print(result.message);
+      } else {
+        print(result.userModel.toString());
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'main-page', (route) => false);
+      }
+    }
+
     Widget header() {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +81,7 @@ class SignInPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: emailController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
                       decoration: InputDecoration.collapsed(
@@ -119,6 +136,7 @@ class SignInPage extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
@@ -147,10 +165,7 @@ class SignInPage extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, 'main-page', (route) => false);
-          },
+          onPressed: handleSignIn,
           child: Text(
             'Sign In',
             style: whiteTextStyle.copyWith(
