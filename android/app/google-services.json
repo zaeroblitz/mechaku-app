@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243261179622",
+    "project_id": "mechaku-26a87",
+    "storage_bucket": "mechaku-26a87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243261179622:android:140922cf6bfcfb27311d27",
+        "android_client_info": {
+          "package_name": "com.example.mechaku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243261179622-q6qs9c30k43uc8ptrf9r4qm4v4aaogou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD62eBV-ZzX3dQ9LhqHakiWE2NsFKzSpAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243261179622-q6qs9c30k43uc8ptrf9r4qm4v4aaogou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
