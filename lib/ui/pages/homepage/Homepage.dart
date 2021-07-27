@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:mechaku/theme.dart';
-import 'package:mechaku/widgets/best_seller_item.dart';
-import 'package:mechaku/widgets/category_item.dart';
-import 'package:mechaku/widgets/new_arrival_item.dart';
+part of '../pages.dart';
 
 class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');

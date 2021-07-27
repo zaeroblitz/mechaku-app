@@ -1,7 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:mechaku/theme.dart';
+part of '../pages.dart';
 
 class SplashPage extends StatefulWidget {
   @override

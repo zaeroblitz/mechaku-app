@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mechaku/pages/MainPage.dart';
-import 'package:mechaku/pages/SplashPage.dart';
-import 'package:mechaku/pages/login/SignInPage.dart';
-import 'package:mechaku/pages/login/SignUpPage.dart';
-import 'package:mechaku/providers/PageProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:mechaku/ui/pages/pages.dart';
+import 'package:mechaku/providers/providers.dart';
 
 void main() {
   runApp(MyApp());

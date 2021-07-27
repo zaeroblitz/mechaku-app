@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+part of 'providers.dart';
 
 class PageProvider with ChangeNotifier {
   int _currentIndex = 0;

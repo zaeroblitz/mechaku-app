@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:mechaku/theme.dart';
+part of '../pages.dart';
 
 class SignInPage extends StatelessWidget {
   @override

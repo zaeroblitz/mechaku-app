@@ -1,9 +1,4 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:mechaku/pages/homepage/Homepage.dart';
-import 'package:mechaku/providers/PageProvider.dart';
-import 'package:mechaku/theme.dart';
-import 'package:provider/provider.dart';
+part of 'pages.dart';
 
 class MainPage extends StatefulWidget {
   @override
