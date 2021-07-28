@@ -21,6 +21,6 @@ class UserModel {
 
   @override
   String toString() {
-    return '[$id]: $id \n[$email]: $email \n[$name]: $name';
+    return '[id]: $id \n[email]: $email \n[name]: $name';
   }
 }

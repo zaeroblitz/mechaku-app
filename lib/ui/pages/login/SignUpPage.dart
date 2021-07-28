@@ -1,15 +1,25 @@
 part of '../pages.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController(text: '');
+  TextEditingController emailAddressController =
+      TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController(text: '');
-    TextEditingController usernameController = TextEditingController(text: '');
-    TextEditingController emailAddressController =
-        TextEditingController(text: '');
-    TextEditingController passwordController = TextEditingController(text: '');
-
     handleSignUp() async {
+      setState(() {
+        isLoading = true;
+      });
+
       SignInSignUpResult result = await AuthServices.signUp(
         emailAddressController.text,
         passwordController.text,
@@ -24,6 +34,10 @@ class SignUpPage extends StatelessWidget {
         Navigator.pushNamedAndRemoveUntil(
             context, 'main-page', (route) => false);
       }
+
+      setState(() {
+        isLoading = false;
+      });
     }
 
     Widget header() {
@@ -399,7 +413,7 @@ class SignUpPage extends StatelessWidget {
                   emailAddressInput(),
                   passwordInput(),
                   // retypePasswordInput(),
-                  signUpButton(),
+                  isLoading ? SpinkitLoading() : signUpButton(),
                   signIn(),
                 ],
               )

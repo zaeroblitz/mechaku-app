@@ -1,22 +1,50 @@
 part of '../pages.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController(text: '');
-    TextEditingController passwordController = TextEditingController(text: '');
-
     handleSignIn() async {
-      SignInSignUpResult result = await AuthServices.signIn(
-          emailController.text, passwordController.text);
+      // SignInSignUpResult result = await AuthServices.signIn(
+      //     emailController.text, passwordController.text);
 
-      if (result == null) {
-        print(result.message);
-      } else {
-        print(result.userModel.toString());
+      // if (result == null) {
+      //   print(result.message);
+      // } else {
+      //   print(result.userModel.toString());
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, 'main-page', (route) => false);
+      // }
+
+      setState(() {
+        isLoading = true;
+      });
+
+      bool authProviderResult = await AuthProvider()
+          .login(emailController.text, passwordController.text);
+
+      if (authProviderResult) {
         Navigator.pushNamedAndRemoveUntil(
             context, 'main-page', (route) => false);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text('Invalid email or password', style: whiteTextStyle),
+          ),
+        );
       }
+
+      setState(() {
+        isLoading = false;
+      });
     }
 
     Widget header() {
@@ -219,7 +247,7 @@ class SignInPage extends StatelessWidget {
                   header(),
                   emailInput(),
                   passwordInput(),
-                  signInButton(),
+                  isLoading ? SpinkitLoading() : signInButton(),
                 ],
               ),
               signUpNow(),
