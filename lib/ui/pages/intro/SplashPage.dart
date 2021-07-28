@@ -8,11 +8,13 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Timer(
-        Duration(seconds: 3),
-        () => Navigator.pushNamedAndRemoveUntil(
-            context, 'sign-in', (route) => false));
+    getInit();
     super.initState();
+  }
+
+  getInit() async {
+    await Provider.of<CategoryProvider>(context, listen: false).getCategories();
+    Navigator.pushNamedAndRemoveUntil(context, 'sign-in', (route) => false);
   }
 
   @override

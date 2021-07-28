@@ -4,3 +4,4 @@ import 'package:mechaku/services/services.dart';
 
 part 'PageProvider.dart';
 part 'AuthProvider.dart';
+part 'CategoryProvider.dart';

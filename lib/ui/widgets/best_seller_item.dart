@@ -1,6 +1,16 @@
 part of 'widgets.dart';
 
 class BestSellerItem extends StatelessWidget {
+  final String category;
+  final String name;
+  final String grade;
+  final String size;
+  final String gallery;
+  final int price;
+
+  BestSellerItem(this.category, this.name, this.grade, this.size, this.gallery,
+      this.price);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,8 +23,8 @@ class BestSellerItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage(
-            'assets/rg_wing_gundam.jpg',
+          image: NetworkImage(
+            gallery,
           ),
         ),
       ),
@@ -40,13 +50,13 @@ class BestSellerItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Gundam',
+                    category,
                     style: whiteTextStyle.copyWith(fontSize: 12),
                   ),
                   SizedBox(
                     width: 140,
                     child: Text(
-                      'Gundam Wing RG (MG - 1/144)',
+                      '$name ($grade - $size)',
                       maxLines: 2,
                       style: whiteTextStyle.copyWith(
                         fontSize: 16,
@@ -73,7 +83,7 @@ class BestSellerItem extends StatelessWidget {
                 ),
               ),
               child: Text(
-                '\$50,00',
+                price.toString(),
                 style: whiteTextStyle.copyWith(
                   fontWeight: medium,
                 ),
