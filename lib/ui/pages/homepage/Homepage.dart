@@ -2,6 +2,8 @@ part of '../pages.dart';
 
 class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');
+  static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference categories = firestore.collection('categories');
 
   Widget header() {
     return Container(
@@ -114,7 +116,7 @@ class Homepage extends StatelessWidget {
     );
   }
 
-  Widget categories() {
+  Widget categoriesWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -128,15 +130,33 @@ class Homepage extends StatelessWidget {
         SizedBox(
           height: 14,
         ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              CategoryItem(),
-              CategoryItem(),
-              CategoryItem(),
-            ],
-          ),
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.horizontal,
+        //   child: Row(
+        //     children: [
+        //       CategoryItem(),
+        //       CategoryItem(),
+        //       CategoryItem(),
+        //     ],
+        //   ),
+        // ),
+        StreamBuilder<QuerySnapshot>(
+          stream: categories.orderBy('name').snapshots(),
+          builder: (_, snapshot) {
+            if (snapshot.hasData) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: snapshot.data.docs
+                      .map((doc) =>
+                          CategoryItem(doc.get('name'), doc.get('bannerUrl')))
+                      .toList(),
+                ),
+              );
+            } else {
+              return SizedBox();
+            }
+          },
         ),
         SizedBox(
           height: 30,
@@ -176,7 +196,7 @@ class Homepage extends StatelessWidget {
         header(),
         searchField(),
         bestSeller(),
-        categories(),
+        categoriesWidget(),
         newArrival(),
       ],
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:mechaku/services.dart/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mechaku/services/services.dart';
 import 'package:mechaku/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';

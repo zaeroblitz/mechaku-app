@@ -1,6 +1,11 @@
 part of 'widgets.dart';
 
 class CategoryItem extends StatelessWidget {
+  final String name;
+  final String url;
+
+  CategoryItem(this.name, this.url);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,8 +23,8 @@ class CategoryItem extends StatelessWidget {
           end: Alignment.centerLeft,
         ),
         image: DecorationImage(
-          image: AssetImage(
-            'assets/dummy_category.png',
+          image: NetworkImage(
+            url,
           ),
           fit: BoxFit.cover,
         ),
@@ -50,7 +55,7 @@ class CategoryItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Build Divers',
+                    name,
                     style: whiteTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
