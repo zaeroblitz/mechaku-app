@@ -9,25 +9,67 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context);
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     Widget header() {
       return Container(
         margin: EdgeInsets.only(
           bottom: 30,
         ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 30,
+          vertical: 13,
+        ),
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(24),
+            bottomRight: Radius.circular(24),
+          ),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              'assets/logo_landscape.png',
-              width: 154,
+            authProvider.result.userModel.profilePicture == '' ||
+                    authProvider.result.userModel.profilePicture == null
+                ? Image.asset(
+                    'assets/user_pic.png',
+                    width: 54,
+                    height: 54,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(authProvider.result.userModel.profilePicture),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    authProvider.user.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  Text(
+                    'Rp. ' + authProvider.user.balance.toString(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: orangeTextStyle.copyWith(
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                ],
+              ),
             ),
             GestureDetector(
-                child: Image.asset(
-                  'assets/cart_white_icon.png',
-                  width: 24,
-                ),
-                onTap: () {}),
+              child: Image.asset(
+                'assets/cart_white_icon.png',
+                width: 24,
+              ),
+              onTap: () {},
+            ),
           ],
         ),
       );
@@ -35,9 +77,7 @@ class Homepage extends StatelessWidget {
 
     Widget searchField() {
       return Container(
-        margin: EdgeInsets.only(
-          bottom: 30,
-        ),
+        margin: EdgeInsets.only(bottom: 30, left: 30, right: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -91,6 +131,7 @@ class Homepage extends StatelessWidget {
     Widget bestSeller() {
       return Container(
         margin: EdgeInsets.only(
+          left: 30,
           bottom: 30,
         ),
         child: Column(
@@ -168,38 +209,47 @@ class Homepage extends StatelessWidget {
     }
 
     Widget categoriesWidget() {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Categories',
-            style: titleTextStyle.copyWith(
-              fontSize: 22,
-              fontWeight: semiBold,
+      return Container(
+        margin: EdgeInsets.only(
+          left: 30,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Categories',
+              style: titleTextStyle.copyWith(
+                fontSize: 22,
+                fontWeight: semiBold,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 14,
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: categoryProvider.categories
-                  .map((category) =>
-                      CategoryItem(category.name, category.bannerUrl))
-                  .toList(),
+            SizedBox(
+              height: 14,
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-        ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: categoryProvider.categories
+                    .map((category) =>
+                        CategoryItem(category.name, category.bannerUrl))
+                    .toList(),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       );
     }
 
     Widget newArrival() {
       return Container(
-        margin: EdgeInsets.only(bottom: 30),
+        margin: EdgeInsets.only(
+          bottom: 30,
+          left: 30,
+          right: 30,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

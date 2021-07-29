@@ -104,7 +104,6 @@ class _MainPageState extends State<MainPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottomNav(),
       body: Container(
-        margin: EdgeInsets.all(30),
         child: body(),
       ),
     );

@@ -11,26 +11,15 @@ class _SignInPageState extends State<SignInPage> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     handleSignIn() async {
-      // SignInSignUpResult result = await AuthServices.signIn(
-      //     emailController.text, passwordController.text);
-
-      // if (result == null) {
-      //   print(result.message);
-      // } else {
-      //   print(result.userModel.toString());
-      //   Navigator.pushNamedAndRemoveUntil(
-      //       context, 'main-page', (route) => false);
-      // }
-
       setState(() {
         isLoading = true;
       });
 
-      bool authProviderResult = await AuthProvider()
-          .login(emailController.text, passwordController.text);
-
-      if (authProviderResult) {
+      if (await authProvider.login(
+          emailController.text, passwordController.text)) {
         Navigator.pushNamedAndRemoveUntil(
             context, 'main-page', (route) => false);
       } else {
@@ -45,6 +34,17 @@ class _SignInPageState extends State<SignInPage> {
       setState(() {
         isLoading = false;
       });
+
+      // SignInSignUpResult result = await AuthServices.signIn(
+      //     emailController.text, passwordController.text);
+
+      // if (result == null) {
+      //   print(result.message);
+      // } else {
+      //   print(result.userModel.toString());
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, 'main-page', (route) => false);
+      // }
     }
 
     Widget header() {

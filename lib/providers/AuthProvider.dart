@@ -30,6 +30,8 @@ class AuthProvider with ChangeNotifier {
 
       _result = result;
       _user = _result.userModel;
+      print('From SignInSignUpResult: ' + _result.userModel.name);
+      print('From User: ' + _user.name);
       return true;
     } catch (e) {
       return false;
@@ -42,6 +44,8 @@ class AuthProvider with ChangeNotifier {
 
       _result = result;
       _user = _result.userModel;
+      print('From SignInSignUpResult: ' + _result.userModel.name);
+      print('From User: ' + _user.name);
       return true;
     } catch (e) {
       return false;
