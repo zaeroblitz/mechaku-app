@@ -6,3 +6,4 @@ import 'package:mechaku/models/models.dart';
 part 'auth_services.dart';
 part 'user_services.dart';
 part 'category_services.dart';
+part 'product_services.dart';

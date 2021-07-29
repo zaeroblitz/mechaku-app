@@ -8,6 +8,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context);
+    ProductProvider productProvider = Provider.of<ProductProvider>(context);
 
     Widget header() {
       return Container(
@@ -105,43 +106,75 @@ class Homepage extends StatelessWidget {
             SizedBox(
               height: 14,
             ),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     children: [
-            //       BestSellerItem(),
-            //       BestSellerItem(),
-            //       BestSellerItem(),
-            //     ],
-            //   ),
-            // ),
-            StreamBuilder<QuerySnapshot>(
-              stream:
-                  products.where('isBestSeller', isEqualTo: true).snapshots(),
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinkitLoading();
-                  } else {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: snapshot.data.docs
-                              .map((doc) => BestSellerItem(
-                                  doc.get('categoryId'),
-                                  doc.get('name'),
-                                  doc.get('grade'),
-                                  doc.get('size'),
-                                  'https://firebasestorage.googleapis.com/v0/b/mechaku-26a87.appspot.com/o/Gundam%20Wing%20RG%2Frg_wing_gundam.jpg?alt=media&token=70f2ff59-6056-4f36-8efd-5365035815a2',
-                                  doc.get('price')))
-                              .toList()),
-                    );
-                  }
-                } else {
-                  return SizedBox();
-                }
-              },
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: productProvider.products
+                    .map((e) => BestSellerItem(
+                        e.categoryId,
+                        e.name,
+                        e.grade,
+                        e.size,
+                        'https://firebasestorage.googleapis.com/v0/b/mechaku-26a87.appspot.com/o/Gundam%20Wing%20RG%2Frg_wing_gundam.jpg?alt=media&token=70f2ff59-6056-4f36-8efd-5365035815a2',
+                        e.price))
+                    .toList(),
+              ),
             ),
+
+            // StreamBuilder<QuerySnapshot>(
+            //   stream:
+            //       products.where('isBestSeller', isEqualTo: true).snapshots(),
+            //   builder: (_, snapshot) {
+            //     if (snapshot.hasData) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return SpinkitLoading();
+            //       } else {
+            //         return SingleChildScrollView(
+            //           scrollDirection: Axis.horizontal,
+            //           child: Row(
+            //               children: snapshot.data.docs
+            //                   .map((doc) => BestSellerItem(
+            //                       doc.get('categoryId'),
+            //                       doc.get('name'),
+            //                       doc.get('grade'),
+            //                       doc.get('size'),
+            //                       'https://firebasestorage.googleapis.com/v0/b/mechaku-26a87.appspot.com/o/Gundam%20Wing%20RG%2Frg_wing_gundam.jpg?alt=media&token=70f2ff59-6056-4f36-8efd-5365035815a2',
+            //                       doc.get('price')))
+            //                   .toList()),
+            //         );
+            //       }
+            //     } else {
+            //       return SizedBox();
+            //     }
+            //   },
+            // ),
+
+            // FutureBuilder(
+            //     future: productProvider.getProducts(),
+            //     builder: (_, snapshot) {
+            //       if (snapshot.hasData) {
+            //         if (snapshot.connectionState == ConnectionState.waiting) {
+            //           return SpinkitLoading();
+            //         } else {
+            //           return SingleChildScrollView(
+            //             scrollDirection: Axis.horizontal,
+            //             child: Row(
+            //               children: productProvider.products
+            //                   .map((e) => BestSellerItem(
+            //                       e.categoryId,
+            //                       e.name,
+            //                       e.grade,
+            //                       e.size,
+            //                       'https://firebasestorage.googleapis.com/v0/b/mechaku-26a87.appspot.com/o/Gundam%20Wing%20RG%2Frg_wing_gundam.jpg?alt=media&token=70f2ff59-6056-4f36-8efd-5365035815a2',
+            //                       e.price))
+            //                   .toList(),
+            //             ),
+            //           );
+            //         }
+            //       } else {
+            //         return SizedBox();
+            //       }
+            //     }),
           ],
         ),
       );

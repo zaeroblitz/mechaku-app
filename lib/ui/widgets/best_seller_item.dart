@@ -53,16 +53,25 @@ class BestSellerItem extends StatelessWidget {
                     category,
                     style: whiteTextStyle.copyWith(fontSize: 12),
                   ),
-                  SizedBox(
-                    width: 140,
-                    child: Text(
-                      '$name ($grade - $size)',
-                      maxLines: 2,
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
+                  Column(
+                    children: [
+                      Text(
+                        '$name',
+                        maxLines: 1,
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semiBold,
+                        ),
                       ),
-                    ),
+                      Text(
+                        '($grade - $size)',
+                        maxLines: 1,
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semiBold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

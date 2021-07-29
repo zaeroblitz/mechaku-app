@@ -4,5 +4,8 @@ class CategoryModel {
   final String name;
   final String bannerUrl;
 
-  CategoryModel(this.name, this.bannerUrl);
+  CategoryModel(
+    this.name,
+    this.bannerUrl,
+  );
 }
