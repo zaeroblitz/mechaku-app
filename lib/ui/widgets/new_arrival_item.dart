@@ -1,6 +1,9 @@
 part of 'widgets.dart';
 
 class NewArrivalItem extends StatelessWidget {
+  final ProductModel product;
+  NewArrivalItem(this.product);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +16,7 @@ class NewArrivalItem extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                  image: AssetImage('assets/wargreymon.jpg'),
+                  image: NetworkImage(product.gallery[0]),
                   fit: BoxFit.cover),
             ),
           ),
@@ -25,13 +28,13 @@ class NewArrivalItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Digimon',
+                  product.categoryId,
                   style: greyTextStyle.copyWith(
                     fontSize: 12,
                   ),
                 ),
                 Text(
-                  'Digimon Wargreymon Special Metal',
+                  product.name,
                   style: primaryTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: semiBold,
@@ -40,7 +43,7 @@ class NewArrivalItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  '\$50, 00',
+                  'Rp. ${product.price}',
                   style: orangeTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: medium,

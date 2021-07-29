@@ -138,7 +138,7 @@ class Homepage extends StatelessWidget {
             //   },
             // ),
             FutureBuilder(
-                future: productProvider.getBestSellerProduct(),
+                future: productProvider.getBestSellerProducts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SpinkitLoading();
@@ -213,9 +213,20 @@ class Homepage extends StatelessWidget {
             SizedBox(
               height: 14,
             ),
-            NewArrivalItem(),
-            NewArrivalItem(),
-            NewArrivalItem(),
+            FutureBuilder(
+                future: productProvider.getNewArrivalProducts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SpinkitLoading();
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: productProvider.products
+                          .map((product) => NewArrivalItem(product))
+                          .toList(),
+                    );
+                  }
+                }),
           ],
         ),
       );

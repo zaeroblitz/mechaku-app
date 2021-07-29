@@ -21,10 +21,22 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getBestSellerProduct() async {
+  Future<void> getBestSellerProducts() async {
     try {
       List<ProductModel> products =
-          await ProductServices.getBestSellerProduct();
+          await ProductServices.getBestSellerProducts();
+
+      _products = products;
+      print(_products.map((e) => 'Best Seller' + e.name.toString()));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> getNewArrivalProducts() async {
+    try {
+      List<ProductModel> products =
+          await ProductServices.getNewArrivalProducts();
 
       _products = products;
       print(_products.map((e) => 'Best Seller' + e.name.toString()));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mechaku/models/models.dart';
 import 'package:mechaku/theme.dart';
 
 part 'best_seller_item.dart';
