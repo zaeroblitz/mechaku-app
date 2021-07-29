@@ -189,14 +189,7 @@ class Homepage extends StatelessWidget {
                       child: Row(
                         children: productProvider.products
                             .map(
-                              (e) => BestSellerItem(
-                                e.categoryId,
-                                e.name,
-                                e.grade,
-                                e.size,
-                                e.gallery[0],
-                                e.price,
-                              ),
+                              (product) => BestSellerItem(product),
                             )
                             .toList(),
                       ),

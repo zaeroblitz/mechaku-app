@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mechaku/models/models.dart';
 import 'package:mechaku/services/services.dart';
 import 'package:mechaku/theme.dart';
 import 'package:flutter/widgets.dart';
@@ -13,4 +14,5 @@ part 'homepage/Homepage.dart';
 part 'intro/SplashPage.dart';
 part 'login/SignInPage.dart';
 part 'login/SignUpPage.dart';
+part 'product/ProductPage.dart';
 part 'MainPage.dart';
