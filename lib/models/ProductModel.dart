@@ -7,7 +7,7 @@ class ProductModel {
   final String description;
   final String grade;
   final String size;
-  // final List<String> gallery;
+  final List<String> gallery;
   final int price;
   final bool isBestSeller;
 
@@ -18,7 +18,7 @@ class ProductModel {
     this.description,
     this.grade,
     this.size,
-    // this.gallery,
+    this.gallery,
     this.price,
     this.isBestSeller,
   );

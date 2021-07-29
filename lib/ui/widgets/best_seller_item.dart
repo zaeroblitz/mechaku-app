@@ -54,6 +54,7 @@ class BestSellerItem extends StatelessWidget {
                     style: whiteTextStyle.copyWith(fontSize: 12),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         '$name',

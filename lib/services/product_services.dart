@@ -9,9 +9,7 @@ class ProductServices {
     List<ProductModel> listProduct = [];
 
     snapshot.docs.forEach((doc) {
-      // var galleries = products.doc(doc.id).collection('gallery').get();
-      // var galleriesData = await galleries.then((value) =>
-      //     value.docs.map((e) => e.get('gallery').toString()).toList());
+      List<String> gallery = List.from(doc.get('gallery'));
 
       var dataProduct = ProductModel(
         doc.get('name'),
@@ -20,7 +18,7 @@ class ProductServices {
         doc.get('description'),
         doc.get('grade'),
         doc.get('size'),
-        // galleriesData,
+        gallery,
         doc.get('price'),
         doc.get('isBestSeller'),
       );
