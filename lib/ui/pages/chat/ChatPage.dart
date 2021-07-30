@@ -38,11 +38,112 @@ class ChatPage extends StatelessWidget {
       );
     }
 
+    Widget emptyState() {
+      return Container(
+        margin: EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/headset_icon.png',
+              width: 80,
+            ),
+            SizedBox(height: 20),
+            Column(
+              children: [
+                Text(
+                  'Oops no message yet',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: medium,
+                  ),
+                ),
+                Text(
+                  'You have never done a chat',
+                  style: greyTextStyle,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              onPressed: () {
+                pageProvider.currentIndex = 0;
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: iconColor,
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 24,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                'Explore Store',
+                style: whiteTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget inputChat() {
+      return Container(
+        margin: EdgeInsets.all(30),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextFormField(
+                  autofocus: false,
+                  cursorColor: orangeTextColor,
+                  style: primaryTextStyle,
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Type here to start chat',
+                    hintStyle: subtitleTextStyle,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            GestureDetector(
+              onTap: () {},
+              child: Image.asset(
+                'assets/send_button.png',
+                width: 45,
+                height: 45,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           header(),
+          emptyState(),
+          inputChat(),
         ],
       ),
     );

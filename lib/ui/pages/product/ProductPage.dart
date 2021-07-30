@@ -229,22 +229,31 @@ class _ProductPageState extends State<ProductPage> {
               child: Row(
                 children: productProvider.products.map((product) {
                   index++;
-                  return Container(
-                      margin: EdgeInsets.only(
-                        left: (index == 0) ? 0 : 16,
-                        right:
-                            (index == productProvider.products.length) ? 30 : 0,
-                      ),
-                      child: Container(
-                        width: 54,
-                        height: 54,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            image: DecorationImage(
-                              image: NetworkImage(product.gallery[0]),
-                              fit: BoxFit.cover,
-                            )),
-                      ));
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductPage(product)));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(
+                          left: (index == 0) ? 0 : 16,
+                          right: (index == productProvider.products.length)
+                              ? 30
+                              : 0,
+                        ),
+                        child: Container(
+                          width: 54,
+                          height: 54,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              image: DecorationImage(
+                                image: NetworkImage(product.gallery[0]),
+                                fit: BoxFit.cover,
+                              )),
+                        )),
+                  );
                 }).toList(),
               ),
             ),
@@ -265,11 +274,13 @@ class _ProductPageState extends State<ProductPage> {
                 height: 54,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
+                  border: Border.all(
+                    color: greyColor2,
+                  ),
                   borderRadius: BorderRadius.circular(12),
-                  color: secondaryColor,
                 ),
                 child: Image.asset(
-                  'assets/chat_black_icon.png',
+                  'assets/chat_white_icon.png',
                   width: 23,
                   height: 22,
                 ),

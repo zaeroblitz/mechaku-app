@@ -129,6 +129,7 @@ class Homepage extends StatelessWidget {
     }
 
     Widget bestSeller() {
+      int index = -1;
       return Container(
         margin: EdgeInsets.only(
           left: 30,
@@ -187,11 +188,21 @@ class Homepage extends StatelessWidget {
                     return SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: productProvider.products
-                            .map(
-                              (product) => BestSellerItem(product),
-                            )
-                            .toList(),
+                        children: productProvider.products.map(
+                          (product) {
+                            index++;
+                            return Container(
+                              margin: EdgeInsets.only(
+                                left: (index == 0) ? 0 : 16,
+                                right:
+                                    (index == productProvider.products.length)
+                                        ? 30
+                                        : 0,
+                              ),
+                              child: BestSellerItem(product),
+                            );
+                          },
+                        ).toList(),
                       ),
                     );
                   }
@@ -202,6 +213,7 @@ class Homepage extends StatelessWidget {
     }
 
     Widget categoriesWidget() {
+      int index = -1;
       return Container(
         margin: EdgeInsets.only(
           left: 30,
@@ -209,12 +221,29 @@ class Homepage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Categories',
-              style: titleTextStyle.copyWith(
-                fontSize: 22,
-                fontWeight: semiBold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Categories',
+                  style: titleTextStyle.copyWith(
+                    fontSize: 22,
+                    fontWeight: semiBold,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'See more',
+                      style: greyTextStyle.copyWith(
+                        fontSize: 16,
+                        fontWeight: medium,
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                  ],
+                ),
+              ],
             ),
             SizedBox(
               height: 14,
@@ -222,10 +251,16 @@ class Homepage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: categoryProvider.categories
-                    .map((category) =>
-                        CategoryItem(category.name, category.bannerUrl))
-                    .toList(),
+                children: categoryProvider.categories.map((category) {
+                  index++;
+                  return Container(
+                      margin: EdgeInsets.only(
+                        left: (index == 0) ? 0 : 20,
+                        right:
+                            (index == productProvider.products.length) ? 30 : 0,
+                      ),
+                      child: CategoryItem(category.name, category.bannerUrl));
+                }).toList(),
               ),
             ),
             SizedBox(

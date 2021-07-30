@@ -102,9 +102,11 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: bgColor,
-      floatingActionButton: walletButton(),
+      floatingActionButton:
+          (pageProvider.currentIndex == 1) ? SizedBox() : walletButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNav(),
+      bottomNavigationBar:
+          (pageProvider.currentIndex == 1) ? SizedBox() : bottomNav(),
       body: Container(
         child: body(),
       ),

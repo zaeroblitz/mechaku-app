@@ -9,7 +9,6 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 20),
       width: 288,
       height: 82,
       decoration: BoxDecoration(
