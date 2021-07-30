@@ -32,21 +32,30 @@ class _ProductPageState extends State<ProductPage> {
     Widget productImage() {
       int index = -1;
       return Container(
-        height: 225,
+        height: 330,
         width: double.infinity,
         child: Stack(
           children: [
             CarouselSlider(
               items: widget.product.gallery
                   .map(
-                    (e) => Image.network(
-                      e,
+                    (e) => Container(
+                      height: 330,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                            image: NetworkImage(e),
+                            fit: BoxFit.cover,
+                            scale: 3.0,
+                          )),
                     ),
                   )
                   .toList(),
               options: CarouselOptions(
+                  height: 320,
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
                   initialPage: 0,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -54,17 +63,6 @@ class _ProductPageState extends State<ProductPage> {
                     });
                   }),
             ),
-            // Container(
-            //   height: 330,
-            //   decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //       image: NetworkImage(
-            //         widget.product.gallery[0],
-            //       ),
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -92,10 +90,8 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 190,
-              ),
+            Align(
+              alignment: Alignment.bottomCenter,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.product.gallery.map((e) {
@@ -331,7 +327,7 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: blackColor,
       body: ListView(
         children: [
           Stack(
@@ -340,7 +336,7 @@ class _ProductPageState extends State<ProductPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 200),
+                  SizedBox(height: 335),
                   productInformation(),
                 ],
               ),
