@@ -29,6 +29,32 @@ class _ProductPageState extends State<ProductPage> {
       );
     }
 
+    Widget background() {
+      return Container(
+        height: 360,
+        child: Stack(
+          children: [
+            Container(
+              height: 360,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                    widget.product.gallery[0],
+                  ),
+                ),
+              ),
+            ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget productImage() {
       int index = -1;
       return Container(
@@ -127,6 +153,15 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Text(
+                    '(${widget.product.grade} - ${widget.product.size})',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                  Text(
                     widget.product.categoryId,
                     style: greyTextStyle.copyWith(
                       fontSize: 12,
@@ -185,23 +220,35 @@ class _ProductPageState extends State<ProductPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Description',
-              style: titleTextStyle.copyWith(
-                fontWeight: semiBold,
-                fontSize: 16,
-              ),
-            ),
             SizedBox(
               height: 12,
             ),
-            Text(
-              widget.product.description,
-              textAlign: TextAlign.justify,
-              style: greyTextStyle.copyWith(
-                fontWeight: light,
+            ExpansionTile(
+              title: Text(
+                'Description',
+                style: titleTextStyle.copyWith(
+                  fontWeight: semiBold,
+                  fontSize: 16,
+                ),
               ),
+              tilePadding: EdgeInsets.all(0),
+              children: [
+                Text(
+                  widget.product.description,
+                  textAlign: TextAlign.justify,
+                  style: greyTextStyle.copyWith(
+                    fontWeight: light,
+                  ),
+                ),
+              ],
             ),
+            // Text(
+            //   widget.product.description,
+            //   textAlign: TextAlign.justify,
+            //   style: greyTextStyle.copyWith(
+            //     fontWeight: light,
+            //   ),
+            // ),
           ],
         ),
       );
@@ -305,7 +352,6 @@ class _ProductPageState extends State<ProductPage> {
                 'Add to Cart',
                 style: whiteTextStyle.copyWith(
                   fontSize: 16,
-                  fontWeight: semiBold,
                 ),
               ),
             ),
@@ -343,6 +389,7 @@ class _ProductPageState extends State<ProductPage> {
         children: [
           Stack(
             children: [
+              background(),
               productImage(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
