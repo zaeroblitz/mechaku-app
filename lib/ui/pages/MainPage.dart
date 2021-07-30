@@ -93,6 +93,8 @@ class _MainPageState extends State<MainPage> {
         case 0:
           return Homepage();
           break;
+        case 1:
+          return ChatPage();
         default:
           return Homepage();
       }

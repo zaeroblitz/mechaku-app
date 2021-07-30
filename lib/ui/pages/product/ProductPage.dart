@@ -9,23 +9,62 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
 
-    Widget productImage() {
+    Widget indicator(index) {
       return Container(
-        height: 330,
+        margin: EdgeInsets.symmetric(
+          horizontal: 2,
+        ),
+        decoration: BoxDecoration(
+          color: currentIndex == index ? orangeTextColor : secondaryColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        width: currentIndex == index ? 16 : 4,
+        height: 4,
+      );
+    }
+
+    Widget productImage() {
+      int index = -1;
+      return Container(
+        height: 225,
+        width: double.infinity,
         child: Stack(
           children: [
-            Container(
-              height: 330,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(widget.product.gallery[0]),
-                    fit: BoxFit.cover),
-              ),
+            CarouselSlider(
+              items: widget.product.gallery
+                  .map(
+                    (e) => Image.network(
+                      e,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                  .toList(),
+              options: CarouselOptions(
+                  initialPage: 0,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  }),
             ),
+            // Container(
+            //   height: 330,
+            //   decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //       image: NetworkImage(
+            //         widget.product.gallery[0],
+            //       ),
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -51,6 +90,18 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 190,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.product.gallery.map((e) {
+                  index++;
+                  return indicator(index);
+                }).toList(),
               ),
             )
           ],
@@ -151,7 +202,7 @@ class _ProductPageState extends State<ProductPage> {
             Text(
               widget.product.description,
               textAlign: TextAlign.justify,
-              style: primaryTextStyle.copyWith(
+              style: greyTextStyle.copyWith(
                 fontWeight: light,
               ),
             ),
@@ -173,7 +224,7 @@ class _ProductPageState extends State<ProductPage> {
             Text(
               'Fimiliar Mechas',
               style: titleTextStyle.copyWith(
-                fontWeight: medium,
+                fontWeight: semiBold,
                 fontSize: 16,
               ),
             ),
@@ -289,7 +340,7 @@ class _ProductPageState extends State<ProductPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 300),
+                  SizedBox(height: 200),
                   productInformation(),
                 ],
               ),

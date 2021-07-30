@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mechaku/models/models.dart';
 import 'package:mechaku/services/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mechaku/providers/providers.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 
+part 'chat/ChatPage.dart';
 part 'homepage/Homepage.dart';
 part 'intro/SplashPage.dart';
 part 'login/SignInPage.dart';
