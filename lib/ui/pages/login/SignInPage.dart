@@ -34,17 +34,6 @@ class _SignInPageState extends State<SignInPage> {
       setState(() {
         isLoading = false;
       });
-
-      // SignInSignUpResult result = await AuthServices.signIn(
-      //     emailController.text, passwordController.text);
-
-      // if (result == null) {
-      //   print(result.message);
-      // } else {
-      //   print(result.userModel.toString());
-      //   Navigator.pushNamedAndRemoveUntil(
-      //       context, 'main-page', (route) => false);
-      // }
     }
 
     Widget header() {

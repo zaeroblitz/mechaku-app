@@ -30,8 +30,6 @@ class AuthProvider with ChangeNotifier {
 
       _result = result;
       _user = _result.userModel;
-      print('From SignInSignUpResult: ' + _result.userModel.name);
-      print('From User: ' + _user.name);
       return true;
     } catch (e) {
       return false;
@@ -44,8 +42,24 @@ class AuthProvider with ChangeNotifier {
 
       _result = result;
       _user = _result.userModel;
-      print('From SignInSignUpResult: ' + _result.userModel.name);
-      print('From User: ' + _user.name);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> addToWishlist(UserModel user, ProductModel product) async {
+    try {
+      await UserServices.addWishlist(user, product);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> removeWishlist(UserModel user, ProductModel product) async {
+    try {
+      await UserServices.deleteWishlist(user, product);
       return true;
     } catch (e) {
       return false;

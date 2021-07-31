@@ -5,6 +5,7 @@ extension UserExtension on User {
     String name = 'No Name',
     String username = 'No Username',
     String profilePicture = '',
+    String role = 'USER',
     int balance = 0,
     List<String> wishlist = const [],
   }) =>
@@ -14,6 +15,7 @@ extension UserExtension on User {
         name: name,
         username: username,
         profilePicture: profilePicture,
+        role: role,
         balance: balance,
         wishlist: wishlist,
       );

@@ -15,24 +15,25 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     handleSignUp() async {
       setState(() {
         isLoading = true;
       });
 
-      SignInSignUpResult result = await AuthServices.signUp(
-        emailAddressController.text,
-        passwordController.text,
+      if (await authProvider.register(
         nameController.text,
         usernameController.text,
-      );
-
-      if (result == null) {
-        print(result.message);
-      } else {
-        print(result.userModel.toString());
+        emailAddressController.text,
+        passwordController.text,
+      )) {
+        print(authProvider.user.toString());
         Navigator.pushNamedAndRemoveUntil(
             context, 'main-page', (route) => false);
+        print(authProvider.result.message);
+      } else {
+        print(authProvider.result.message);
       }
 
       setState(() {

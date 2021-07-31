@@ -6,6 +6,20 @@ class BestSellerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    checkWishlists() {
+      var test = authProvider.user.wishlist;
+
+      if (test.contains(product.id)) {
+        print('Data exists');
+        return true;
+      } else {
+        print("Data doesn't exists " + test.toString());
+        return false;
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
@@ -102,17 +116,32 @@ class BestSellerItem extends StatelessWidget {
             Positioned(
               right: 8,
               top: 8,
-              child: Container(
-                padding: EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Image.asset(
-                  'assets/love_white_icon.png',
-                  width: 12,
-                  height: 12,
-                  fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () async {
+                  await authProvider.addToWishlist(authProvider.user, product);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Added to Wishlist',
+                        style: whiteTextStyle,
+                      ),
+                      backgroundColor: greenColor,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  child: CircleAvatar(
+                    backgroundColor:
+                        checkWishlists() ? pinkColor : secondaryColor,
+                    child: Icon(
+                      Icons.favorite_rounded,
+                      size: 16,
+                      color: checkWishlists() ? whiteFontColor : greyColor,
+                    ),
+                  ),
                 ),
               ),
             ),

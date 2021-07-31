@@ -6,6 +6,7 @@ class UserModel {
   final String name;
   final String username;
   final String profilePicture;
+  final String role;
   final int balance;
   final List<String> wishlist;
 
@@ -15,6 +16,7 @@ class UserModel {
     this.name,
     this.username,
     this.profilePicture,
+    this.role,
     this.balance,
     this.wishlist,
   });

@@ -12,6 +12,7 @@ class ProductServices {
       List<String> gallery = List.from(doc.get('gallery'));
 
       var dataProduct = ProductModel(
+        doc.get('id'),
         doc.get('name'),
         doc.get('categoryId'),
         doc.get('color'),
@@ -39,6 +40,7 @@ class ProductServices {
       List<String> gallery = List.from(doc.get('gallery'));
 
       var dataProduct = ProductModel(
+        doc.get('id'),
         doc.get('name'),
         doc.get('categoryId'),
         doc.get('color'),
@@ -65,6 +67,7 @@ class ProductServices {
       List<String> gallery = List.from(doc.get('gallery'));
 
       var dataProduct = ProductModel(
+        doc.get('id'),
         doc.get('name'),
         doc.get('categoryId'),
         doc.get('color'),

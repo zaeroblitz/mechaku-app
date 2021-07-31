@@ -17,6 +17,7 @@ class UserServices {
       'name': userModel.name,
       'username': userModel.username,
       'profilePicture': userModel.profilePicture ?? "",
+      'role': userModel.role,
       'balance': userModel.balance,
       'wishlists': userModel.wishlist,
     });
@@ -31,6 +32,7 @@ class UserServices {
           name: snapshot.get('name'),
           username: snapshot.get('username'),
           profilePicture: snapshot.get('profilePicture'),
+          role: snapshot.get('role'),
           balance: snapshot.get('balance'),
           wishlist: (snapshot.get('wishlists') as List)
               .map((e) => e.toString())
@@ -42,5 +44,18 @@ class UserServices {
     });
 
     return userData;
+  }
+
+  static Future<void> addWishlist(UserModel user, ProductModel product) async {
+    await users.doc(user.id).update({
+      'wishlists': FieldValue.arrayUnion([product.id])
+    });
+  }
+
+  static Future<void> deleteWishlist(
+      UserModel user, ProductModel product) async {
+    await users.doc(user.id).update({
+      'wislists': FieldValue.arrayRemove([product.id])
+    });
   }
 }

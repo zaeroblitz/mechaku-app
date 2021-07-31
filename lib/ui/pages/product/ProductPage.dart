@@ -14,6 +14,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     Widget indicator(index) {
       return Container(
@@ -171,12 +172,38 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Added to Wishlist',
+                      style: whiteTextStyle,
+                    ),
+                    backgroundColor: greenColor,
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
               child: CircleAvatar(
-                backgroundColor: secondaryColor,
+                backgroundColor: authProvider.user.wishlist.contains([
+                  {
+                    'productId': widget.product.id,
+                    'productName': widget.product.name,
+                  }
+                ])
+                    ? pinkColor
+                    : secondaryColor,
                 child: Icon(
                   Icons.favorite_rounded,
                   size: 24,
-                  color: greyColor2,
+                  color: authProvider.user.wishlist.contains([
+                    {
+                      'productId': widget.product.id,
+                      'productName': widget.product.name,
+                    }
+                  ])
+                      ? whiteFontColor
+                      : greyColor2,
                 ),
               ),
             ),

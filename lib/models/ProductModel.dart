@@ -1,6 +1,7 @@
 part of 'models.dart';
 
 class ProductModel {
+  final String id;
   final String name;
   final String categoryId;
   final String color;
@@ -12,6 +13,7 @@ class ProductModel {
   final bool isBestSeller;
 
   ProductModel(
+    this.id,
     this.name,
     this.categoryId,
     this.color,
