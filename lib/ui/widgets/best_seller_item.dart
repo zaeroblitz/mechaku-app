@@ -13,7 +13,7 @@ class BestSellerItem extends StatelessWidget {
       },
       child: Container(
         width: 215,
-        height: 278,
+        height: 288,
         margin: EdgeInsets.only(
           right: 20,
         ),
@@ -32,7 +32,7 @@ class BestSellerItem extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 215,
-                height: 84,
+                height: 94,
                 padding: EdgeInsets.symmetric(
                   vertical: 9,
                   horizontal: 12,
@@ -47,6 +47,7 @@ class BestSellerItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 8),
                     Text(
                       product.categoryId,
                       style: whiteTextStyle.copyWith(fontSize: 12),
@@ -78,7 +79,7 @@ class BestSellerItem extends StatelessWidget {
             ),
             Positioned(
               right: -0.5,
-              bottom: 54,
+              bottom: 64,
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: 5,
@@ -91,7 +92,7 @@ class BestSellerItem extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  product.price.toString(),
+                  product.toRupiahFormat(product.price),
                   style: whiteTextStyle.copyWith(
                     fontWeight: medium,
                   ),

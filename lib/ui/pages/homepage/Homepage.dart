@@ -53,7 +53,7 @@ class Homepage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Rp. ' + authProvider.user.balance.toString(),
+                    authProvider.user.toRupiahFormat(authProvider.user.balance),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: orangeTextStyle.copyWith(

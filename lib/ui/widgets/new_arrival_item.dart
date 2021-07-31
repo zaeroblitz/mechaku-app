@@ -47,7 +47,7 @@ class NewArrivalItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
-                    'Rp. ${product.price}',
+                    product.toRupiahFormat(product.price),
                     style: orangeTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: medium,

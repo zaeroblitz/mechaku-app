@@ -23,4 +23,12 @@ class UserModel {
   String toString() {
     return '[id]: $id \n[email]: $email \n[name]: $name';
   }
+
+  String toRupiahFormat(int balance) {
+    return NumberFormat.currency(
+      locale: 'ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    ).format(balance);
+  }
 }

@@ -22,4 +22,12 @@ class ProductModel {
     this.price,
     this.isBestSeller,
   );
+
+  String toRupiahFormat(int price) {
+    return NumberFormat.currency(
+      locale: 'ID',
+      decimalDigits: 0,
+      symbol: 'Rp ',
+    ).format(price);
+  }
 }

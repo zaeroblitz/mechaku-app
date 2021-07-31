@@ -203,7 +203,7 @@ class _ProductPageState extends State<ProductPage> {
               style: greyTextStyle,
             ),
             Text(
-              'Rp. ' + widget.product.price.toString(),
+              widget.product.toRupiahFormat(widget.product.price),
               style: orangeTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: semiBold,
