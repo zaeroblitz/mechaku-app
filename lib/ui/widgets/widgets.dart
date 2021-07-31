@@ -8,3 +8,5 @@ part 'best_seller_item.dart';
 part 'category_item.dart';
 part 'new_arrival_item.dart';
 part 'spinkit_loading.dart';
+part 'basic_header.dart';
+part 'wishlist_item.dart';

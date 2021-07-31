@@ -12,6 +12,7 @@ Color orangeTextColor = Color(0xFFFFA500);
 Color blackColor = Color(0xFF2E2E2E);
 Color greyColor = Color(0xFF999999);
 Color greyColor2 = Color(0xFFC4C4C4);
+Color pinkColor = Color(0xFFF6577C);
 
 TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: primaryFontColor,

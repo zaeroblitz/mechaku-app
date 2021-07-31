@@ -7,28 +7,6 @@ class WishlistPage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
 
-    Widget header() {
-      return Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(30),
-        decoration: BoxDecoration(
-          color: secondaryColor,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16),
-            bottomRight: Radius.circular(16),
-          ),
-        ),
-        child: Text(
-          'Favorite Mechas',
-          textAlign: TextAlign.center,
-          style: primaryTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: semiBold,
-          ),
-        ),
-      );
-    }
-
     Widget emptyState() {
       return Container(
         margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
@@ -86,20 +64,41 @@ class WishlistPage extends StatelessWidget {
       );
     }
 
+    Widget wishlistItems() {
+      return SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          margin: EdgeInsets.all(30),
+          child: Column(
+            children: [
+              WishlistItem(),
+              WishlistItem(),
+              WishlistItem(),
+              WishlistItem(),
+              WishlistItem(),
+            ],
+          ),
+        ),
+      );
+    }
+
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          header(),
-          user.wishlist.isEmpty
-              ? emptyState()
-              : Center(
-                  child: Text('item'),
-                ),
-          SizedBox(),
-        ],
-      ),
+      child: user.wishlist.isNotEmpty
+          ? ListView(
+              children: [
+                BasicHeader('Favorite Mechas'),
+                wishlistItems(),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BasicHeader('Favorite Mechas'),
+                emptyState(),
+                SizedBox(),
+              ],
+            ),
     );
   }
 }
