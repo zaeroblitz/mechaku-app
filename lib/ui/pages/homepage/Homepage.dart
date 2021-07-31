@@ -310,14 +310,16 @@ class Homepage extends StatelessWidget {
       );
     }
 
-    return ListView(
-      children: [
-        header(),
-        searchField(),
-        bestSeller(),
-        categoriesWidget(),
-        newArrival(),
-      ],
+    return SafeArea(
+      child: ListView(
+        children: [
+          header(),
+          searchField(),
+          bestSeller(),
+          categoriesWidget(),
+          newArrival(),
+        ],
+      ),
     );
   }
 }
