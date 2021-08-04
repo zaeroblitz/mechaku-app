@@ -1,6 +1,12 @@
 part of 'widgets.dart';
 
 class WishlistItem extends StatelessWidget {
+  final String url;
+  final String name;
+  final int price;
+
+  WishlistItem(this.url, this.name, this.price);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,8 +32,7 @@ class WishlistItem extends StatelessWidget {
             height: 64,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              image: DecorationImage(
-                  image: AssetImage('assets/rg_wing_gundam.jpg')),
+              image: DecorationImage(image: NetworkImage(url)),
             ),
           ),
           SizedBox(
@@ -38,7 +43,7 @@ class WishlistItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Gundam Wing RG',
+                  name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: primaryTextStyle.copyWith(
@@ -46,7 +51,7 @@ class WishlistItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Rp 500.000',
+                  'Rp $price',
                   style: orangeTextStyle,
                 ),
               ],

@@ -9,7 +9,12 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     getInit();
+    getStreamInit();
     super.initState();
+  }
+
+  getStreamInit() async* {
+    Provider.of<ProductProvider>(context, listen: false).getProductsByStream();
   }
 
   getInit() async {

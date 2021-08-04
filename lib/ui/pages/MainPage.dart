@@ -91,7 +91,11 @@ class _MainPageState extends State<MainPage> {
     Widget body() {
       switch (pageProvider.currentIndex) {
         case 0:
-          return Homepage();
+          return StreamProvider<List<ProductModel>>.value(
+            value: ProductServices.getProductsWithStream(),
+            initialData: [],
+            child: Homepage(),
+          );
           break;
         case 1:
           return ChatPage();
@@ -109,9 +113,7 @@ class _MainPageState extends State<MainPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar:
           (pageProvider.currentIndex == 1) ? SizedBox() : bottomNav(),
-      body: Container(
-        child: body(),
-      ),
+      body: body(),
     );
   }
 }

@@ -16,6 +16,14 @@ class _ProductPageState extends State<ProductPage> {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
+    checkWishlist() {
+      if (authProvider.user.wishlist.contains(widget.product.id)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     Widget indicator(index) {
       return Container(
         margin: EdgeInsets.symmetric(
@@ -185,25 +193,11 @@ class _ProductPageState extends State<ProductPage> {
                 );
               },
               child: CircleAvatar(
-                backgroundColor: authProvider.user.wishlist.contains([
-                  {
-                    'productId': widget.product.id,
-                    'productName': widget.product.name,
-                  }
-                ])
-                    ? pinkColor
-                    : secondaryColor,
+                backgroundColor: checkWishlist() ? pinkColor : secondaryColor,
                 child: Icon(
                   Icons.favorite_rounded,
                   size: 24,
-                  color: authProvider.user.wishlist.contains([
-                    {
-                      'productId': widget.product.id,
-                      'productName': widget.product.name,
-                    }
-                  ])
-                      ? whiteFontColor
-                      : greyColor2,
+                  color: checkWishlist() ? whiteFontColor : greyColor2,
                 ),
               ),
             ),

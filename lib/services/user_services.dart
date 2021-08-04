@@ -46,16 +46,16 @@ class UserServices {
     return userData;
   }
 
-  static Future<void> addWishlist(UserModel user, ProductModel product) async {
-    await users.doc(user.id).update({
-      'wishlists': FieldValue.arrayUnion([product.id])
-    });
-  }
-
-  static Future<void> deleteWishlist(
+  static Future<void> manageWishlist(
       UserModel user, ProductModel product) async {
-    await users.doc(user.id).update({
-      'wislists': FieldValue.arrayRemove([product.id])
-    });
+    if (!user.wishlist.contains(product.id)) {
+      await users.doc(user.id).update({
+        'wishlists': FieldValue.arrayUnion([product.id])
+      });
+    } else {
+      await users.doc(user.id).update({
+        'wishlists': FieldValue.arrayRemove([product.id])
+      });
+    }
   }
 }

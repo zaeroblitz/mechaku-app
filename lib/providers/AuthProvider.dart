@@ -50,16 +50,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> addToWishlist(UserModel user, ProductModel product) async {
     try {
-      await UserServices.addWishlist(user, product);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  Future<bool> removeWishlist(UserModel user, ProductModel product) async {
-    try {
-      await UserServices.deleteWishlist(user, product);
+      await UserServices.manageWishlist(user, product);
       return true;
     } catch (e) {
       return false;

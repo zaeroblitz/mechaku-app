@@ -148,37 +148,6 @@ class Homepage extends StatelessWidget {
             SizedBox(
               height: 14,
             ),
-            // StreamBuilder<QuerySnapshot>(
-            //   stream:
-            //       products.where('isBestSeller', isEqualTo: true).snapshots(),
-            //   builder: (_, snapshot) {
-            //     if (snapshot.hasData) {
-            //       if (snapshot.connectionState == ConnectionState.waiting) {
-            //         return SpinkitLoading();
-            //       } else {
-            //         return SingleChildScrollView(
-            //           scrollDirection: Axis.horizontal,
-            //           child: Row(
-            //             children: productProvider.products
-            //                 .map(
-            //                   (e) => BestSellerItem(
-            //                     e.categoryId,
-            //                     e.name,
-            //                     e.grade,
-            //                     e.size,
-            //                     e.gallery[0],
-            //                     e.price,
-            //                   ),
-            //                 )
-            //                 .toList(),
-            //           ),
-            //         );
-            //       }
-            //     } else {
-            //       return SizedBox();
-            //     }
-            //   },
-            // ),
             FutureBuilder(
                 future: productProvider.getBestSellerProducts(),
                 builder: (context, snapshot) {
@@ -207,6 +176,77 @@ class Homepage extends StatelessWidget {
                     );
                   }
                 }),
+          ],
+        ),
+      );
+    }
+
+    Widget bestSellerStream() {
+      int index = -1;
+
+      return Container(
+        margin: EdgeInsets.only(
+          left: 30,
+          bottom: 30,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Best Seller With Stream',
+              style: titleTextStyle.copyWith(
+                fontSize: 22,
+                fontWeight: semiBold,
+              ),
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: products.snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SpinkitLoading();
+                  } else {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: snapshot.data.docs.map((product) {
+                          index++;
+                          List<String> gallery =
+                              List.from(product.get('gallery'));
+
+                          ProductModel productModel = ProductModel(
+                              product.get('id'),
+                              product.get('name'),
+                              product.get('categoryId'),
+                              product.get('color'),
+                              product.get('description'),
+                              product.get('grade'),
+                              product.get('size'),
+                              gallery,
+                              product.get('price'),
+                              product.get('isBestSeller'));
+                          return Container(
+                            margin: EdgeInsets.only(
+                              left: (index == 0) ? 0 : 16,
+                              right:
+                                  (index == snapshot.data.docs.length) ? 30 : 0,
+                            ),
+                            child: BestSellerItem(productModel),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }
+                } else {
+                  return SizedBox(
+                    child: Text('No Data'),
+                  );
+                }
+              },
+            ),
           ],
         ),
       );
@@ -312,10 +352,12 @@ class Homepage extends StatelessWidget {
 
     return SafeArea(
       child: ListView(
+        shrinkWrap: true,
         children: [
           header(),
           searchField(),
           bestSeller(),
+          bestSellerStream(),
           categoriesWidget(),
           newArrival(),
         ],

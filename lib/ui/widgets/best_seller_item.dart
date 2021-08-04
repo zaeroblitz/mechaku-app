@@ -9,13 +9,9 @@ class BestSellerItem extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     checkWishlists() {
-      var test = authProvider.user.wishlist;
-
-      if (test.contains(product.id)) {
-        print('Data exists');
+      if (authProvider.user.wishlist.contains(product.id)) {
         return true;
       } else {
-        print("Data doesn't exists " + test.toString());
         return false;
       }
     }
