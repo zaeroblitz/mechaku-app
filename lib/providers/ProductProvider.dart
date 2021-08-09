@@ -65,4 +65,16 @@ class ProductProvider with ChangeNotifier {
       print(e.toString());
     }
   }
+
+  Future<void> getProductsByCategory(String categoryId) async {
+    try {
+      List<ProductModel> products =
+          await ProductServices.getProductsByCategory(categoryId);
+
+      _products = products;
+      // print(_products.map((e) => 'New Arrival Product: ' + e.name.toString()));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

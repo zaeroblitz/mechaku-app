@@ -5,13 +5,6 @@ class UserServices {
   static CollectionReference users = firestore.collection('users');
 
   static Future<void> addUser(UserModel userModel) async {
-    // String wishlists = '';
-
-    // for (var wishlist in userModel.wishlist) {
-    //   wishlists +=
-    //       wishlist + ((wishlist != userModel.wishlist.last) ? ',' : '');
-    // }
-
     users.doc(userModel.id).set({
       'email': userModel.email,
       'name': userModel.name,

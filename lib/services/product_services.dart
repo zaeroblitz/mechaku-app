@@ -125,4 +125,32 @@ class ProductServices {
 
     return listProduct;
   }
+
+  static Future<List<ProductModel>> getProductsByCategory(
+      String categoryId) async {
+    QuerySnapshot snapshot =
+        await products.where('categoryId', isEqualTo: categoryId).get();
+    List<ProductModel> listProduct = [];
+
+    snapshot.docs.forEach((doc) {
+      List<String> gallery = List.from(doc.get('gallery'));
+
+      var dataProduct = ProductModel(
+        doc.get('id'),
+        doc.get('name'),
+        doc.get('categoryId'),
+        doc.get('color'),
+        doc.get('description'),
+        doc.get('grade'),
+        doc.get('size'),
+        gallery,
+        doc.get('price'),
+        doc.get('isBestSeller'),
+      );
+
+      listProduct.add(dataProduct);
+    });
+
+    return listProduct;
+  }
 }

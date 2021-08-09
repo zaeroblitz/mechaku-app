@@ -4,11 +4,12 @@ class Homepage extends StatelessWidget {
   final TextEditingController query = TextEditingController(text: '');
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static CollectionReference products = firestore.collection('products');
+  static CollectionReference categories = firestore.collection('categories');
 
   @override
   Widget build(BuildContext context) {
-    CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context);
-    ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    // CategoryProvider categoryProvider = Provider.of<CategoryProvider>(context);
+    // ProductProvider productProvider = Provider.of<ProductProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
 
     Widget header() {
@@ -128,58 +129,58 @@ class Homepage extends StatelessWidget {
       );
     }
 
-    Widget bestSeller() {
-      int index = -1;
-      return Container(
-        margin: EdgeInsets.only(
-          left: 30,
-          bottom: 30,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Best Seller',
-              style: titleTextStyle.copyWith(
-                fontSize: 22,
-                fontWeight: semiBold,
-              ),
-            ),
-            SizedBox(
-              height: 14,
-            ),
-            FutureBuilder(
-                future: productProvider.getBestSellerProducts(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinkitLoading();
-                  } else {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: productProvider.products.map(
-                          (product) {
-                            index++;
-                            return Container(
-                              margin: EdgeInsets.only(
-                                left: (index == 0) ? 0 : 16,
-                                right:
-                                    (index == productProvider.products.length)
-                                        ? 30
-                                        : 0,
-                              ),
-                              child: BestSellerItem(product),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    );
-                  }
-                }),
-          ],
-        ),
-      );
-    }
+    // Widget bestSeller() {
+    //   int index = -1;
+    //   return Container(
+    //     margin: EdgeInsets.only(
+    //       left: 30,
+    //       bottom: 30,
+    //     ),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Text(
+    //           'Best Seller',
+    //           style: titleTextStyle.copyWith(
+    //             fontSize: 22,
+    //             fontWeight: semiBold,
+    //           ),
+    //         ),
+    //         SizedBox(
+    //           height: 14,
+    //         ),
+    //         FutureBuilder(
+    //             future: productProvider.getBestSellerProducts(),
+    //             builder: (context, snapshot) {
+    //               if (snapshot.connectionState == ConnectionState.waiting) {
+    //                 return SpinkitLoading();
+    //               } else {
+    //                 return SingleChildScrollView(
+    //                   scrollDirection: Axis.horizontal,
+    //                   child: Row(
+    //                     children: productProvider.products.map(
+    //                       (product) {
+    //                         index++;
+    //                         return Container(
+    //                           margin: EdgeInsets.only(
+    //                             left: (index == 0) ? 0 : 16,
+    //                             right:
+    //                                 (index == productProvider.products.length)
+    //                                     ? 30
+    //                                     : 0,
+    //                           ),
+    //                           child: BestSellerItem(product),
+    //                         );
+    //                       },
+    //                     ).toList(),
+    //                   ),
+    //                 );
+    //               }
+    //             }),
+    //       ],
+    //     ),
+    //   );
+    // }
 
     Widget bestSellerStream() {
       int index = -1;
@@ -193,7 +194,7 @@ class Homepage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Best Seller With Stream',
+              'Best Seller',
               style: titleTextStyle.copyWith(
                 fontSize: 22,
                 fontWeight: semiBold,
@@ -214,20 +215,8 @@ class Homepage extends StatelessWidget {
                       child: Row(
                         children: snapshot.data.docs.map((product) {
                           index++;
-                          List<String> gallery =
-                              List.from(product.get('gallery'));
-
-                          ProductModel productModel = ProductModel(
-                              product.get('id'),
-                              product.get('name'),
-                              product.get('categoryId'),
-                              product.get('color'),
-                              product.get('description'),
-                              product.get('grade'),
-                              product.get('size'),
-                              gallery,
-                              product.get('price'),
-                              product.get('isBestSeller'));
+                          ProductModel productModel =
+                              ProductModel.fromJson(product.data());
                           return Container(
                             margin: EdgeInsets.only(
                               left: (index == 0) ? 0 : 16,
@@ -288,19 +277,56 @@ class Homepage extends StatelessWidget {
             SizedBox(
               height: 14,
             ),
+
+            // // NOTE: Get Data with Provider
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: categoryProvider.categories.map((category) {
+            //       index++;
+            //       return Container(
+            //           margin: EdgeInsets.only(
+            //             left: (index == 0) ? 0 : 20,
+            //             right:
+            //                 (index == productProvider.products.length) ? 30 : 0,
+            //           ),
+            //           child: CategoryItem(category.name, category.bannerUrl));
+            //     }).toList(),
+            //   ),
+            // ),
+
+            // NOTE: Get data through StreamBuilder
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: categoryProvider.categories.map((category) {
-                  index++;
-                  return Container(
-                      margin: EdgeInsets.only(
-                        left: (index == 0) ? 0 : 20,
-                        right:
-                            (index == productProvider.products.length) ? 30 : 0,
-                      ),
-                      child: CategoryItem(category.name, category.bannerUrl));
-                }).toList(),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: categories.snapshots(),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SpinkitLoading();
+                    } else {
+                      return Row(
+                          children: snapshot.data.docs.map((doc) {
+                        index++;
+                        CategoryModel categoryModel =
+                            CategoryModel.fromJson(doc.data());
+
+                        return Container(
+                          margin: EdgeInsets.only(
+                            left: (index == 0) ? 0 : 20,
+                            right: (index == snapshot.data.docs.length - 1)
+                                ? 20
+                                : 0,
+                          ),
+                          child: CategoryItem(
+                              categoryModel.name, categoryModel.bannerUrl),
+                        );
+                      }).toList());
+                    }
+                  } else {
+                    return Text('No data');
+                  }
+                },
               ),
             ),
             SizedBox(
@@ -331,20 +357,44 @@ class Homepage extends StatelessWidget {
             SizedBox(
               height: 14,
             ),
-            FutureBuilder(
-                future: productProvider.getNewArrivalProducts(),
-                builder: (context, snapshot) {
+
+            //NOTE: Get data through StreamBuilder
+            StreamBuilder<QuerySnapshot>(
+              stream: products.orderBy('createdAt').limit(5).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SpinkitLoading();
                   } else {
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: productProvider.products
-                          .map((product) => NewArrivalItem(product))
-                          .toList(),
+                      children: snapshot.data.docs.map((doc) {
+                        ProductModel product =
+                            ProductModel.fromJson(doc.data());
+                        return NewArrivalItem(product);
+                      }).toList(),
                     );
                   }
-                }),
+                } else {
+                  return Text('No data');
+                }
+              },
+            ),
+
+            //NOTE: Get data with Provider => Future
+            // FutureBuilder(
+            //     future: productProvider.getNewArrivalProducts(),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return SpinkitLoading();
+            //       } else {
+            //         return Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: productProvider.products
+            //               .map((product) => NewArrivalItem(product))
+            //               .toList(),
+            //         );
+            //       }
+            //     }),
           ],
         ),
       );
@@ -356,7 +406,7 @@ class Homepage extends StatelessWidget {
         children: [
           header(),
           searchField(),
-          bestSeller(),
+          // bestSeller(),
           bestSellerStream(),
           categoriesWidget(),
           newArrival(),

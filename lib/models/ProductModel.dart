@@ -25,6 +25,20 @@ class ProductModel {
     this.isBestSeller,
   );
 
+  factory ProductModel.fromJson(Map<String, dynamic> json) {
+    List<String> gallery = List.from(json['gallery']);
+    return ProductModel(
+        json['id'],
+        json['name'],
+        json['categoryId'],
+        json['color'],
+        json['description'],
+        json['grade'],
+        json['size'],
+        gallery,
+        json['price'],
+        json['isBestSeller']);
+  }
   String toRupiahFormat(int price) {
     return NumberFormat.currency(
       locale: 'ID',

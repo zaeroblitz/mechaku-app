@@ -8,4 +8,9 @@ class CategoryModel {
     this.name,
     this.bannerUrl,
   );
+
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
+        json['name'],
+        json['bannerUrl'],
+      );
 }

@@ -21,4 +21,5 @@ part 'login/SignInPage.dart';
 part 'login/SignUpPage.dart';
 part 'product/ProductPage.dart';
 part 'wishlist/WishlistPage.dart';
+part 'category/CategoryPage.dart';
 part 'MainPage.dart';
