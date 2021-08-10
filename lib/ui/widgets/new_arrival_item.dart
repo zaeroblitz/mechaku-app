@@ -6,6 +6,20 @@ class NewArrivalItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _shimmer() {
+      return Shimmer(
+        color: iconColor,
+        direction: ShimmerDirection.fromLeftToRight(),
+        child: Container(
+          width: 215,
+          height: 288,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
@@ -15,13 +29,19 @@ class NewArrivalItem extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 20),
         child: Row(
           children: [
-            Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    image: NetworkImage(product.gallery[0]), fit: BoxFit.cover),
+            CachedNetworkImage(
+              imageUrl: product.gallery[0],
+              placeholder: (context, url) => _shimmer(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+              imageBuilder: (context, imageProvider) => Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      image: NetworkImage(product.gallery[0]),
+                      fit: BoxFit.cover),
+                ),
               ),
             ),
             SizedBox(
