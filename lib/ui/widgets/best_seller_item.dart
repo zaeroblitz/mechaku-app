@@ -9,9 +9,7 @@ class BestSellerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    String currentUserId = authProvider.user.id;
-
-    bool isWishlist = authProvider.user.wishlist.contains(product.id);
+    String currentEmail = authProvider.user.email;
 
     Widget _shimmer() {
       return Shimmer(
@@ -27,13 +25,18 @@ class BestSellerItem extends StatelessWidget {
       );
     }
 
-    return StreamBuilder<Object>(
-        stream: user.doc(currentUserId).snapshots(),
+    return StreamBuilder<QuerySnapshot>(
+        stream: user.where('email', isEqualTo: currentEmail).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return _shimmer();
             } else {
+              List<String> userWishlists =
+                  List.from(snapshot.data.docs.first.get('wishlists'));
+              print(userWishlists);
+
+              //NOTE: OnTap
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -41,6 +44,7 @@ class BestSellerItem extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => ProductPage(product)));
                 },
+                //NOTE: Product Image
                 child: CachedNetworkImage(
                   imageUrl: product.gallery[0],
                   placeholder: (context, url) => _shimmer(),
@@ -60,6 +64,7 @@ class BestSellerItem extends StatelessWidget {
                         ),
                       ),
                     ),
+                    //NOTE: Product Information
                     child: Stack(
                       children: [
                         Align(
@@ -82,6 +87,7 @@ class BestSellerItem extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(height: 8),
+                                // Product Category
                                 Text(
                                   product.categoryId,
                                   style: whiteTextStyle.copyWith(fontSize: 12),
@@ -89,6 +95,7 @@ class BestSellerItem extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // Product Name
                                     Text(
                                       product.name,
                                       maxLines: 1,
@@ -97,6 +104,7 @@ class BestSellerItem extends StatelessWidget {
                                         fontWeight: semiBold,
                                       ),
                                     ),
+                                    // Product Grade & Size
                                     Text(
                                       '(${product.grade} - ${product.size})',
                                       maxLines: 1,
@@ -111,6 +119,7 @@ class BestSellerItem extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // Product Price
                         Positioned(
                           right: -0.5,
                           bottom: 64,
@@ -133,42 +142,38 @@ class BestSellerItem extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // Wishlist Icon
                         Positioned(
                           right: 8,
                           top: 8,
                           child: GestureDetector(
-                            onTap: () async {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    (authProvider.user.wishlist
-                                            .contains(product.id))
-                                        ? 'Removed form Wishlists'
-                                        : 'Added to Wishlists',
-                                    style: whiteTextStyle,
-                                  ),
-                                  backgroundColor: (authProvider.user.wishlist
-                                          .contains(product.id))
-                                      ? pinkColor
-                                      : greenColor,
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-
-                              await authProvider.addToWishlist(
-                                  authProvider.user, product);
+                            onTap: () {
+                              if (userWishlists.contains(product.id)) {
+                                user.doc(authProvider.user.id).update({
+                                  'wishlists':
+                                      FieldValue.arrayRemove([product.id])
+                                });
+                              } else {
+                                user.doc(authProvider.user.id).update({
+                                  'wishlists':
+                                      FieldValue.arrayUnion([product.id])
+                                });
+                              }
                             },
                             child: Container(
                               width: 24,
                               height: 24,
                               child: CircleAvatar(
                                 backgroundColor:
-                                    isWishlist ? pinkColor : secondaryColor,
+                                    userWishlists.contains(product.id)
+                                        ? pinkColor
+                                        : secondaryColor,
                                 child: Icon(
                                   Icons.favorite_rounded,
                                   size: 16,
-                                  color:
-                                      isWishlist ? whiteFontColor : greyColor,
+                                  color: userWishlists.contains(product.id)
+                                      ? whiteFontColor
+                                      : greyColor,
                                 ),
                               ),
                             ),
