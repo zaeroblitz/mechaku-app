@@ -12,17 +12,32 @@ class BasicHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16),
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
         ),
       ),
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: primaryTextStyle.copyWith(
-          fontSize: 18,
-          fontWeight: semiBold,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Image.asset(
+              'assets/chevron_left.png',
+              width: 24,
+            ),
+          ),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: primaryTextStyle.copyWith(
+              fontSize: 18,
+              fontWeight: semiBold,
+            ),
+          ),
+          SizedBox(
+            width: 24,
+          ),
+        ],
       ),
     );
   }

@@ -8,19 +8,6 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
 
-    Widget _title() {
-      return Container(
-        margin: EdgeInsets.all(30),
-        child: Text(
-          'Result for $categoryId products',
-          style: titleTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: medium,
-          ),
-        ),
-      );
-    }
-
     Widget _products() {
       return Container(
         margin: EdgeInsets.all(30),
@@ -31,11 +18,17 @@ class CategoryPage extends StatelessWidget {
                 return SpinkitLoading();
               } else {
                 if (productProvider.products.isNotEmpty) {
-                  return Column(
+                  return GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 30,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(
+                      bottom: 10,
+                    ),
+                    childAspectRatio: (148 / 192),
                     children: productProvider.products
-                        .map(
-                          (product) => WishlistItem(product),
-                        )
+                        .map((product) => ProductTile(product))
                         .toList(),
                   );
                 } else {
@@ -55,13 +48,14 @@ class CategoryPage extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BasicHeader('$categoryId Product'),
-            _title(),
-            _products(),
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              BasicHeader('$categoryId Product'),
+              _products(),
+            ],
+          ),
         ),
       ),
     );

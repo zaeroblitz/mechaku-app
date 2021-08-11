@@ -16,3 +16,4 @@ part 'new_arrival_item.dart';
 part 'spinkit_loading.dart';
 part 'basic_header.dart';
 part 'wishlist_item.dart';
+part 'product_tile.dart';
