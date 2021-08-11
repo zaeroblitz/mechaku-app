@@ -34,7 +34,6 @@ class BestSellerItem extends StatelessWidget {
             } else {
               List<String> userWishlists =
                   List.from(snapshot.data.docs.first.get('wishlists'));
-              print(userWishlists);
 
               //NOTE: OnTap
               return GestureDetector(

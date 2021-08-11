@@ -34,8 +34,7 @@ class CategoryPage extends StatelessWidget {
                   return Column(
                     children: productProvider.products
                         .map(
-                          (product) => WishlistItem(
-                              product.gallery[0], product.name, product.price),
+                          (product) => WishlistItem(product),
                         )
                         .toList(),
                   );

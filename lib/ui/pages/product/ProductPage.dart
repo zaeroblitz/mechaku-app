@@ -1,42 +1,32 @@
 part of '../pages.dart';
 
-class ProductPage extends StatefulWidget {
+class ProductPage extends StatelessWidget {
   final ProductModel product;
   ProductPage(this.product);
-
-  @override
-  _ProductPageState createState() => _ProductPageState();
-}
-
-class _ProductPageState extends State<ProductPage> {
-  int currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    ProductProvider productProvider = Provider.of<ProductProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    IndicatorProvider indicatorP = Provider.of<IndicatorProvider>(context);
+    String selectedEmail = authProvider.user.email;
 
-    checkWishlist() {
-      if (authProvider.user.wishlist.contains(widget.product.id)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
 
-    Widget indicator(index) {
-      return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 2,
-        ),
-        decoration: BoxDecoration(
-          color: currentIndex == index ? orangeTextColor : secondaryColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        width: currentIndex == index ? 16 : 4,
-        height: 4,
-      );
-    }
+    CollectionReference user = FirebaseFirestore.instance.collection('users');
+
+    // Widget indicator(index) {
+    //   return Container(
+    //     margin: EdgeInsets.symmetric(
+    //       horizontal: 2,
+    //     ),
+    //     decoration: BoxDecoration(
+    //       color: indicatorP.index == index ? orangeTextColor : secondaryColor,
+    //       borderRadius: BorderRadius.circular(10),
+    //     ),
+    //     width: indicatorP.index == index ? 16 : 4,
+    //     height: 4,
+    //   );
+    // }
 
     Widget background() {
       return Container(
@@ -48,7 +38,7 @@ class _ProductPageState extends State<ProductPage> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                    widget.product.gallery[0],
+                    product.gallery[0],
                   ),
                 ),
               ),
@@ -71,32 +61,59 @@ class _ProductPageState extends State<ProductPage> {
         width: double.infinity,
         child: Stack(
           children: [
-            CarouselSlider(
-              items: widget.product.gallery
-                  .map(
-                    (e) => Container(
-                      height: 330,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                            image: NetworkImage(e),
-                            fit: BoxFit.cover,
-                            scale: 3.0,
-                          )),
+            // CarouselSlider(
+            //   items: product.gallery
+            //       .map(
+            //         (e) => Container(
+            //           height: 330,
+            //           width: double.infinity,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(12),
+            //             image: DecorationImage(
+            //               image: NetworkImage(e),
+            //               fit: BoxFit.cover,
+            //               scale: 3.0,
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //       .toList(),
+            //   options: CarouselOptions(
+            //       height: 320,
+            //       enlargeCenterPage: true,
+            //       enableInfiniteScroll: true,
+            //       initialPage: 0,
+            //       onPageChanged: (index, reason) {
+            //         indicatorP.set(index);
+            //       }),
+            // ),
+            Swiper(
+              itemCount: product.gallery.length,
+              viewportFraction: 0.75,
+              scale: 0.8,
+              pagination: SwiperPagination(
+                alignment: Alignment.bottomCenter,
+                builder: DotSwiperPaginationBuilder(
+                  color: secondaryColor,
+                  activeColor: orangeTextColor,
+                  size: 8,
+                  activeSize: 12,
+                ),
+              ),
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 330,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: NetworkImage(product.gallery[index]),
+                      fit: BoxFit.cover,
+                      scale: 3.0,
                     ),
-                  )
-                  .toList(),
-              options: CarouselOptions(
-                  height: 320,
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: true,
-                  initialPage: 0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      currentIndex = index;
-                    });
-                  }),
+                  ),
+                );
+              },
             ),
             Align(
               alignment: Alignment.topCenter,
@@ -125,16 +142,16 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: widget.product.gallery.map((e) {
-                  index++;
-                  return indicator(index);
-                }).toList(),
-              ),
-            )
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: product.gallery.map((e) {
+            //       index++;
+            //       return indicator(index);
+            //     }).toList(),
+            //   ),
+            // )
           ],
         ),
       );
@@ -153,7 +170,7 @@ class _ProductPageState extends State<ProductPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.product.name,
+                    product.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: primaryTextStyle.copyWith(
@@ -162,7 +179,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Text(
-                    '(${widget.product.grade} - ${widget.product.size})',
+                    '(${product.grade} - ${product.size})',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: primaryTextStyle.copyWith(
@@ -171,7 +188,7 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   Text(
-                    widget.product.categoryId,
+                    product.categoryId,
                     style: greyTextStyle.copyWith(
                       fontSize: 12,
                     ),
@@ -179,27 +196,65 @@ class _ProductPageState extends State<ProductPage> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Added to Wishlist',
-                      style: whiteTextStyle,
+            StreamBuilder<QuerySnapshot>(
+              stream: user.where('email', isEqualTo: selectedEmail).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Shimmer(
+                    color: greyColor,
+                    child: Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        )),
+                  );
+                } else {
+                  List<String> userWishlists =
+                      List.from(snapshot.data.docs.first.get('wishlists'));
+
+                  return GestureDetector(
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            (userWishlists.contains(product.id))
+                                ? 'Removed from Wishlists'
+                                : 'Added to Wishlist',
+                            style: whiteTextStyle,
+                          ),
+                          backgroundColor: (userWishlists.contains(product.id))
+                              ? pinkColor
+                              : greenColor,
+                          duration: Duration(milliseconds: 750),
+                        ),
+                      );
+
+                      if (userWishlists.contains(product.id)) {
+                        user.doc(authProvider.user.id).update({
+                          'wishlists': FieldValue.arrayRemove([product.id])
+                        });
+                      } else {
+                        user.doc(authProvider.user.id).update({
+                          'wishlists': FieldValue.arrayUnion([product.id])
+                        });
+                      }
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: (userWishlists.contains(product.id))
+                          ? pinkColor
+                          : secondaryColor,
+                      child: Icon(
+                        Icons.favorite_rounded,
+                        size: 24,
+                        color: (userWishlists.contains(product.id))
+                            ? whiteFontColor
+                            : greyColor2,
+                      ),
                     ),
-                    backgroundColor: greenColor,
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                  );
+                }
               },
-              child: CircleAvatar(
-                backgroundColor: checkWishlist() ? pinkColor : secondaryColor,
-                child: Icon(
-                  Icons.favorite_rounded,
-                  size: 24,
-                  color: checkWishlist() ? whiteFontColor : greyColor2,
-                ),
-              ),
             ),
           ],
         ),
@@ -224,7 +279,7 @@ class _ProductPageState extends State<ProductPage> {
               style: greyTextStyle,
             ),
             Text(
-              widget.product.toRupiahFormat(widget.product.price),
+              product.toRupiahFormat(product.price),
               style: orangeTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: semiBold,
@@ -244,24 +299,12 @@ class _ProductPageState extends State<ProductPage> {
             SizedBox(
               height: 12,
             ),
-            ExpansionTile(
-              title: Text(
-                'Description',
-                style: titleTextStyle.copyWith(
-                  fontWeight: semiBold,
-                  fontSize: 16,
-                ),
+            Text(
+              product.description,
+              textAlign: TextAlign.justify,
+              style: greyTextStyle.copyWith(
+                fontWeight: light,
               ),
-              tilePadding: EdgeInsets.all(0),
-              children: [
-                Text(
-                  widget.product.description,
-                  textAlign: TextAlign.justify,
-                  style: greyTextStyle.copyWith(
-                    fontWeight: light,
-                  ),
-                ),
-              ],
             ),
             // Text(
             //   widget.product.description,
@@ -293,38 +336,60 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             SizedBox(height: 12),
-            SingleChildScrollView(
-              child: Row(
-                children: productProvider.products.map((product) {
-                  index++;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductPage(product)));
-                    },
-                    child: Container(
-                        margin: EdgeInsets.only(
-                          left: (index == 0) ? 0 : 16,
-                          right: (index == productProvider.products.length)
-                              ? 30
-                              : 0,
+            StreamBuilder<QuerySnapshot>(
+                stream: products.snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Shimmer(
+                      color: greyColor,
+                      child: Container(
+                        width: 54,
+                        height: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        child: Container(
-                          width: 54,
-                          height: 54,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              image: DecorationImage(
-                                image: NetworkImage(product.gallery[0]),
-                                fit: BoxFit.cover,
-                              )),
-                        )),
-                  );
-                }).toList(),
-              ),
-            ),
+                      ),
+                    );
+                  } else {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: snapshot.data.docs.map((doc) {
+                          index++;
+                          ProductModel product =
+                              ProductModel.fromJson(doc.data());
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductPage(product)));
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(
+                                  left: (index == 0) ? 0 : 16,
+                                  right:
+                                      (index == snapshot.data.docs.length - 1)
+                                          ? 30
+                                          : 0,
+                                ),
+                                child: Container(
+                                  width: 54,
+                                  height: 54,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      image: DecorationImage(
+                                        image: NetworkImage(product.gallery[0]),
+                                        fit: BoxFit.cover,
+                                      )),
+                                )),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }
+                }),
           ],
         ),
       );

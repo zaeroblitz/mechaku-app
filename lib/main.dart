@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mechaku/providers/IndicatorProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:mechaku/ui/pages/pages.dart';
 import 'package:mechaku/providers/providers.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => IndicatorProvider(),
         ),
       ],
       child: MaterialApp(

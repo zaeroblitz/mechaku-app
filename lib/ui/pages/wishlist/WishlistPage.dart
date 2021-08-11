@@ -6,39 +6,55 @@ class WishlistPage extends StatelessWidget {
     PageProvider pageProvider = Provider.of<PageProvider>(context);
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
-    user.wishlist.forEach((element) {
-      print(element);
-    });
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     CollectionReference products = firestore.collection('products');
+    CollectionReference users = firestore.collection('users');
 
     Widget wishlistItems() {
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
           margin: EdgeInsets.all(30),
-          child: Column(
-            children: user.wishlist
-                .map((e) => FutureBuilder<QuerySnapshot>(
-                    future: products.where('id', isEqualTo: e).get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          children: snapshot.data.docs
-                              .map((doc) => WishlistItem(doc.get('gallery')[0],
-                                  doc.get('name'), doc.get('price')))
-                              .toList(),
-                        );
-                      } else {
-                        return SpinKitWave(
-                          size: 20,
-                          color: iconColor,
-                        );
-                      }
-                    }))
-                .toList(),
-          ),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: users.where('email', isEqualTo: user.email).snapshots(),
+              builder: (context, snapshot1) {
+                if (snapshot1.connectionState == ConnectionState.waiting) {
+                  return SpinKitWave(
+                    size: 30,
+                    color: iconColor,
+                  );
+                } else {
+                  List<String> userWishlists =
+                      List.from(snapshot1.data.docs.first.get('wishlists'));
+
+                  return Column(
+                    children: userWishlists.map((wishlist) {
+                      return StreamBuilder<QuerySnapshot>(
+                          stream: products
+                              .where('id', isEqualTo: wishlist)
+                              .snapshots(),
+                          builder: (context, snapshot2) {
+                            if (snapshot2.hasData) {
+                              return Column(
+                                children: snapshot2.data.docs.map((doc) {
+                                  ProductModel product =
+                                      ProductModel.fromJson(doc.data());
+
+                                  return WishlistItem(product);
+                                }).toList(),
+                              );
+                            } else {
+                              return SpinKitWave(
+                                size: 20,
+                                color: iconColor,
+                              );
+                            }
+                          });
+                    }).toList(),
+                  );
+                }
+              }),
         ),
       );
     }

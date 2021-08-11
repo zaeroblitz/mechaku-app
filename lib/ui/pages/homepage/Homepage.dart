@@ -204,7 +204,8 @@ class Homepage extends StatelessWidget {
               height: 14,
             ),
             StreamBuilder<QuerySnapshot>(
-              stream: products.snapshots(),
+              stream:
+                  products.where('isBestSeller', isEqualTo: true).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -219,9 +220,10 @@ class Homepage extends StatelessWidget {
                               ProductModel.fromJson(product.data());
                           return Container(
                             margin: EdgeInsets.only(
-                              left: (index == 0) ? 0 : 16,
-                              right:
-                                  (index == snapshot.data.docs.length) ? 30 : 0,
+                              left: (index == 0) ? 0 : 12,
+                              right: (index == snapshot.data.docs.length - 1)
+                                  ? 10
+                                  : 0,
                             ),
                             child: BestSellerItem(productModel),
                           );
@@ -242,7 +244,6 @@ class Homepage extends StatelessWidget {
     }
 
     Widget categoriesWidget() {
-      int index = -1;
       return Container(
         margin: EdgeInsets.only(
           left: 30,
@@ -307,16 +308,12 @@ class Homepage extends StatelessWidget {
                     } else {
                       return Row(
                           children: snapshot.data.docs.map((doc) {
-                        index++;
                         CategoryModel categoryModel =
                             CategoryModel.fromJson(doc.data());
 
                         return Container(
                           margin: EdgeInsets.only(
-                            left: (index == 0) ? 0 : 20,
-                            right: (index == snapshot.data.docs.length - 1)
-                                ? 20
-                                : 0,
+                            right: 20,
                           ),
                           child: CategoryItem(
                               categoryModel.name, categoryModel.bannerUrl),
@@ -360,7 +357,10 @@ class Homepage extends StatelessWidget {
 
             //NOTE: Get data through StreamBuilder
             StreamBuilder<QuerySnapshot>(
-              stream: products.orderBy('createdAt').limit(5).snapshots(),
+              stream: products
+                  .orderBy('createdAt', descending: true)
+                  .limit(5)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

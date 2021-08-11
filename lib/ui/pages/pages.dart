@@ -1,9 +1,10 @@
 import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:mechaku/models/models.dart';
+import 'package:mechaku/providers/IndicatorProvider.dart';
 import 'package:mechaku/services/services.dart';
 import 'package:mechaku/theme.dart';
 import 'package:flutter/widgets.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mechaku/providers/providers.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 part 'chat/ChatPage.dart';
 part 'homepage/Homepage.dart';
