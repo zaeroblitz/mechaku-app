@@ -110,7 +110,13 @@ class Homepage extends StatelessWidget {
               width: 16,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SearchPage(query.text),
+                    ));
+              },
               child: Container(
                 padding: EdgeInsets.symmetric(
                   vertical: 13,
