@@ -13,7 +13,7 @@ class BestSellerItem extends StatelessWidget {
 
     Widget _shimmer() {
       return Shimmer(
-        color: iconColor,
+        color: greyColor,
         direction: ShimmerDirection.fromLeftToRight(),
         child: Container(
           width: 215,

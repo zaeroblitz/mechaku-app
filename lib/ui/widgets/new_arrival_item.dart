@@ -11,8 +11,8 @@ class NewArrivalItem extends StatelessWidget {
         color: iconColor,
         direction: ShimmerDirection.fromLeftToRight(),
         child: Container(
-          width: 215,
-          height: 288,
+          width: MediaQuery.of(context).size.width - 60,
+          height: 120,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
           ),

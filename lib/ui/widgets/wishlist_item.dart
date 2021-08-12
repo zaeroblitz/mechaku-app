@@ -38,9 +38,16 @@ class WishlistItem extends StatelessWidget {
             stream: users.where('email', isEqualTo: userEmail).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SpinKitWave(
-                  size: 30,
-                  color: iconColor,
+                return Shimmer(
+                  color: greyColor,
+                  direction: ShimmerDirection.fromLeftToRight(),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 60,
+                    height: 88,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                 );
               } else {
                 List<String> userWishlists =

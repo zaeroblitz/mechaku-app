@@ -15,7 +15,17 @@ class CategoryPage extends StatelessWidget {
             future: productProvider.getProductsByCategory(categoryId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SpinkitLoading();
+                return Shimmer(
+                  color: iconColor,
+                  direction: ShimmerDirection.fromLeftToRight(),
+                  child: Container(
+                    width: 156,
+                    height: 192,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                );
               } else {
                 if (productProvider.products.isNotEmpty) {
                   return GridView.count(

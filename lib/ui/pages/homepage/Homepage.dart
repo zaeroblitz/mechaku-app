@@ -207,33 +207,37 @@ class Homepage extends StatelessWidget {
               stream:
                   products.where('isBestSeller', isEqualTo: true).snapshots(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinkitLoading();
-                  } else {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: snapshot.data.docs.map((product) {
-                          index++;
-                          ProductModel productModel =
-                              ProductModel.fromJson(product.data());
-                          return Container(
-                            margin: EdgeInsets.only(
-                              left: (index == 0) ? 0 : 12,
-                              right: (index == snapshot.data.docs.length - 1)
-                                  ? 10
-                                  : 0,
-                            ),
-                            child: BestSellerItem(productModel),
-                          );
-                        }).toList(),
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Shimmer(
+                    color: greyColor,
+                    direction: ShimmerDirection.fromLeftToRight(),
+                    child: Container(
+                      width: 215,
+                      height: 288,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                    );
-                  }
+                    ),
+                  );
                 } else {
-                  return SizedBox(
-                    child: Text('No Data'),
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: snapshot.data.docs.map((product) {
+                        index++;
+                        ProductModel productModel =
+                            ProductModel.fromJson(product.data());
+                        return Container(
+                          margin: EdgeInsets.only(
+                            left: (index == 0) ? 0 : 12,
+                            right: (index == snapshot.data.docs.length - 1)
+                                ? 10
+                                : 0,
+                          ),
+                          child: BestSellerItem(productModel),
+                        );
+                      }).toList(),
+                    ),
                   );
                 }
               },
@@ -302,26 +306,32 @@ class Homepage extends StatelessWidget {
               child: StreamBuilder<QuerySnapshot>(
                 stream: categories.snapshots(),
                 builder: (_, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SpinkitLoading();
-                    } else {
-                      return Row(
-                          children: snapshot.data.docs.map((doc) {
-                        CategoryModel categoryModel =
-                            CategoryModel.fromJson(doc.data());
-
-                        return Container(
-                          margin: EdgeInsets.only(
-                            right: 20,
-                          ),
-                          child: CategoryItem(
-                              categoryModel.name, categoryModel.bannerUrl),
-                        );
-                      }).toList());
-                    }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Shimmer(
+                      color: greyColor,
+                      direction: ShimmerDirection.fromLeftToRight(),
+                      child: Container(
+                        width: 288,
+                        height: 82,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    );
                   } else {
-                    return Text('No data');
+                    return Row(
+                        children: snapshot.data.docs.map((doc) {
+                      CategoryModel categoryModel =
+                          CategoryModel.fromJson(doc.data());
+
+                      return Container(
+                        margin: EdgeInsets.only(
+                          right: 20,
+                        ),
+                        child: CategoryItem(
+                            categoryModel.name, categoryModel.bannerUrl),
+                      );
+                    }).toList());
                   }
                 },
               ),
@@ -362,20 +372,25 @@ class Homepage extends StatelessWidget {
                   .limit(5)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinkitLoading();
-                  } else {
-                    return Column(
-                      children: snapshot.data.docs.map((doc) {
-                        ProductModel product =
-                            ProductModel.fromJson(doc.data());
-                        return NewArrivalItem(product);
-                      }).toList(),
-                    );
-                  }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Shimmer(
+                    color: iconColor,
+                    direction: ShimmerDirection.fromLeftToRight(),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 60,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  );
                 } else {
-                  return Text('No data');
+                  return Column(
+                    children: snapshot.data.docs.map((doc) {
+                      ProductModel product = ProductModel.fromJson(doc.data());
+                      return NewArrivalItem(product);
+                    }).toList(),
+                  );
                 }
               },
             ),

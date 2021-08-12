@@ -9,6 +9,8 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController(text: '');
   TextEditingController passwordController = TextEditingController(text: '');
   bool isLoading = false;
+  bool isHidden = true;
+
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
@@ -20,6 +22,8 @@ class _SignInPageState extends State<SignInPage> {
 
       if (await authProvider.login(
           emailController.text, passwordController.text)) {
+        emailController.clear();
+        passwordController.clear();
         Navigator.pushNamedAndRemoveUntil(
             context, 'main-page', (route) => false);
       } else {
@@ -79,8 +83,8 @@ class _SignInPageState extends State<SignInPage> {
           ),
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 16,
+              vertical: 8,
+              horizontal: 14,
             ),
             decoration: BoxDecoration(
               color: secondaryColor,
@@ -101,9 +105,24 @@ class _SignInPageState extends State<SignInPage> {
                       controller: emailController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
-                      decoration: InputDecoration.collapsed(
+                      decoration: InputDecoration(
                         hintText: 'Your Email Address',
                         hintStyle: subtitleTextStyle,
+                        suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                emailController.text = '';
+                              });
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: greyColor,
+                            )),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -134,8 +153,8 @@ class _SignInPageState extends State<SignInPage> {
           ),
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 16,
+              vertical: 8,
+              horizontal: 14,
             ),
             decoration: BoxDecoration(
               color: secondaryColor,
@@ -154,12 +173,30 @@ class _SignInPageState extends State<SignInPage> {
                   Expanded(
                     child: TextFormField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: isHidden ? true : false,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
-                      decoration: InputDecoration.collapsed(
+                      decoration: InputDecoration(
                         hintText: 'Your Password',
                         hintStyle: subtitleTextStyle,
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isHidden = !isHidden;
+                            });
+                          },
+                          child: isHidden
+                              ? Icon(
+                                  Icons.visibility_off_rounded,
+                                  color: greyColor,
+                                )
+                              : Icon(Icons.visibility, color: greyColor),
+                        ),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
                     ),
                   ),

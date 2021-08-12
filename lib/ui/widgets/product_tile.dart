@@ -25,7 +25,17 @@ class ProductTile extends StatelessWidget {
             stream: users.where('email', isEqualTo: userEmail).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return SpinKitWave(size: 30, color: iconColor);
+                return Shimmer(
+                  color: iconColor,
+                  direction: ShimmerDirection.fromLeftToRight(),
+                  child: Container(
+                    width: 156,
+                    height: 192,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                );
               } else {
                 List<String> userWishlists =
                     List.from(snapshot.data.docs.first.get('wishlists'));

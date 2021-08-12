@@ -45,9 +45,16 @@ class WishlistPage extends StatelessWidget {
                                 }).toList(),
                               );
                             } else {
-                              return SpinKitWave(
-                                size: 20,
-                                color: iconColor,
+                              return Shimmer(
+                                color: greyColor,
+                                direction: ShimmerDirection.fromLeftToRight(),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 60,
+                                  height: 88,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
                               );
                             }
                           });
