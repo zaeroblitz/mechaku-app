@@ -9,8 +9,8 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => CategoryPage(name))),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CategoryPage(name, url))),
       child: Container(
         width: 288,
         height: 82,

@@ -10,6 +10,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController passwordController = TextEditingController(text: '');
   bool isLoading = false;
   bool isHidden = true;
+  bool isEmpty = true;
 
   @override
   Widget build(BuildContext context) {
@@ -105,19 +106,30 @@ class _SignInPageState extends State<SignInPage> {
                       controller: emailController,
                       cursorColor: orangeTextColor,
                       style: primaryTextStyle,
+                      onChanged: (value) {
+                        if (value != '') {
+                          setState(() {
+                            isEmpty = false;
+                          });
+                        }
+                      },
                       decoration: InputDecoration(
                         hintText: 'Your Email Address',
                         hintStyle: subtitleTextStyle,
                         suffixIcon: GestureDetector(
                             onTap: () {
-                              setState(() {
-                                emailController.text = '';
-                              });
+                              if (emailController.text != '') {
+                                setState(() {
+                                  emailController.text = '';
+                                });
+                              }
                             },
-                            child: Icon(
-                              Icons.close,
-                              color: greyColor,
-                            )),
+                            child: isEmpty
+                                ? SizedBox()
+                                : Icon(
+                                    Icons.close,
+                                    color: greyColor,
+                                  )),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,

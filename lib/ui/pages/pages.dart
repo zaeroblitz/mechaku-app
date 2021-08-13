@@ -25,4 +25,5 @@ part 'product/ProductPage.dart';
 part 'product/SearchPage.dart';
 part 'wishlist/WishlistPage.dart';
 part 'category/CategoryPage.dart';
+part 'wallet/WalletPage.dart';
 part 'MainPage.dart';

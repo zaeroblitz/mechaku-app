@@ -8,19 +8,19 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final whiteIconList = [
     Image.asset(
-      'assets/home_white_icon.png',
+      'assets/home_grey_icon.png',
       width: 20,
     ),
     Image.asset(
-      'assets/chat_white_icon.png',
+      'assets/chat_grey_icon.png',
       width: 20,
     ),
     Image.asset(
-      'assets/love_white_icon.png',
+      'assets/love_grey_icon.png',
       width: 20,
     ),
     Image.asset(
-      'assets/setting_white_icon.png',
+      'assets/setting_grey_icon.png',
       width: 20,
     ),
   ];
@@ -108,6 +108,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       backgroundColor: bgColor,
+      resizeToAvoidBottomInset: false,
       floatingActionButton:
           (pageProvider.currentIndex == 1) ? SizedBox() : walletButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -2,11 +2,98 @@ part of '../pages.dart';
 
 class CategoryPage extends StatelessWidget {
   final String categoryId;
-  CategoryPage(this.categoryId);
+  final String bannerUrl;
+  CategoryPage(this.categoryId, this.bannerUrl);
 
   @override
   Widget build(BuildContext context) {
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
+
+    Widget _header() {
+      return Container(
+        width: MediaQuery.of(context).size.width - 40,
+        height: 90,
+        margin: EdgeInsets.only(
+          top: 10,
+          left: 20,
+          right: 20,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            colors: <Color>[
+              blackColor,
+              blackColor.withOpacity(0.22),
+            ],
+            begin: Alignment.centerRight,
+            end: Alignment.centerLeft,
+          ),
+          image: DecorationImage(
+            image: NetworkImage(
+              bannerUrl,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width - 40,
+              height: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    blackColor,
+                    blackColor.withOpacity(0.22),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 16,
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: bgColor,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Image.asset(
+                        'assets/chevron_left.png',
+                        width: 12,
+                        height: 12,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Text(
+                      categoryId + ' Products',
+                      style: whiteTextStyle.copyWith(
+                        fontSize: 22,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     Widget _products() {
       return Container(
@@ -62,7 +149,7 @@ class CategoryPage extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              BasicHeader('$categoryId Product'),
+              _header(),
               _products(),
             ],
           ),

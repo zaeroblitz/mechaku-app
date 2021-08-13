@@ -11,6 +11,33 @@ class WishlistPage extends StatelessWidget {
     CollectionReference products = firestore.collection('products');
     CollectionReference users = firestore.collection('users');
 
+    Widget _header() {
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(30),
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(32),
+            bottomRight: Radius.circular(32),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Your Wishlists',
+              textAlign: TextAlign.center,
+              style: primaryTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: semiBold,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget wishlistItems() {
       return SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -127,7 +154,7 @@ class WishlistPage extends StatelessWidget {
       child: user.wishlist.isNotEmpty
           ? ListView(
               children: [
-                BasicHeader('Favorite Mechas'),
+                _header(),
                 wishlistItems(),
               ],
             )
@@ -135,7 +162,7 @@ class WishlistPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BasicHeader('Favorite Mechas'),
+                _header(),
                 emptyState(),
                 SizedBox(),
               ],
